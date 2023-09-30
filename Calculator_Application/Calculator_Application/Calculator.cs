@@ -10,28 +10,38 @@ public class Calculator
     public Calculator()
     {
         Result = 0;
-
     }
-    //  public Calculator(int Value1, int Value2)
-    //  {
-    //      this.Value1 = Value1;
-    //      this.Value2 = Value2;
-    //      Result = 0;
-    //  }
-    //  public Calculator(int Value1, int Value2, int Value3)
-    //  {
-    //this.Value1 = Value1; 
-    //this.Value2 = Value2; 
-    //this.Value3 = Value3;
-    //      Result = 0;
 
-    //  }
-
-    public int Add(int Value1, int Value2)
+    public Calculator(int value1) : this()
     {
-        Result = Value1 + Value2;
+        Value1 = value1;
+    }
 
+    public Calculator(int value1, int value2) : this(value1)
+    {
+        Value2 = value2;
+    }
+
+    public Calculator(int value1, int value2, int value3) : this(value1, value2)
+    {
+        Value3 = value3;
+    }
+
+    public int Add()
+    {
+        Result = Value1 + Value2 + Value3;
         return Result;
     }
 
+    public int Add(int value1, int value2)
+    {
+        Result = value1 + value2;
+        return Result;
+    }
+
+    public int Add(int value1, int value2, int value3)
+    {
+        Result = value1 + value2 + value3;
+        return Result;
+    }
 }
