@@ -1,0 +1,14 @@
+D:\Projects\Console_Projects\Cricket_Application\bin\Debug\net6.0\Cricket_Application.exe
+D:\Projects\Console_Projects\Cricket_Application\bin\Debug\net6.0\Cricket_Application.deps.json
+D:\Projects\Console_Projects\Cricket_Application\bin\Debug\net6.0\Cricket_Application.runtimeconfig.json
+D:\Projects\Console_Projects\Cricket_Application\bin\Debug\net6.0\Cricket_Application.dll
+D:\Projects\Console_Projects\Cricket_Application\bin\Debug\net6.0\Cricket_Application.pdb
+D:\Projects\Console_Projects\Cricket_Application\obj\Debug\net6.0\Cricket_Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Console_Projects\Cricket_Application\obj\Debug\net6.0\Cricket_Application.AssemblyInfoInputs.cache
+D:\Projects\Console_Projects\Cricket_Application\obj\Debug\net6.0\Cricket_Application.AssemblyInfo.cs
+D:\Projects\Console_Projects\Cricket_Application\obj\Debug\net6.0\Cricket_Application.csproj.CoreCompileInputs.cache
+D:\Projects\Console_Projects\Cricket_Application\obj\Debug\net6.0\Cricket_Application.dll
+D:\Projects\Console_Projects\Cricket_Application\obj\Debug\net6.0\refint\Cricket_Application.dll
+D:\Projects\Console_Projects\Cricket_Application\obj\Debug\net6.0\Cricket_Application.pdb
+D:\Projects\Console_Projects\Cricket_Application\obj\Debug\net6.0\Cricket_Application.genruntimeconfig.cache
+D:\Projects\Console_Projects\Cricket_Application\obj\Debug\net6.0\ref\Cricket_Application.dll
