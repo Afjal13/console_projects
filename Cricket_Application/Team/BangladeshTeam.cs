@@ -1,25 +1,24 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Cricket_Application.Models;
 
-namespace Cricket_Application
+namespace Cricket_Application.Teams
 {
-    internal class BangladeshTeam
+    public class BangladeshTeam
     {
-        List<CricketPlayer> PlayerLists =new List<CricketPlayer>();
+        private List<CricketPlayer> PlayerList = new List<CricketPlayer>();
+
         public void AddPlayer(CricketPlayer player)
         {
-            PlayerLists.Add(player);
+            PlayerList.Add(player);
         }
 
         public void Display()
         {
-            foreach (CricketPlayer player in PlayerLists)
+            foreach (CricketPlayer player in PlayerList)
             {
                 Console.WriteLine($"Name: {player.Name}\nAge: {player.Age}\nBestScore: {player.BestScore}\nCountry: {player.Country}");
-               
+                Console.WriteLine();
             }
         }
     }
