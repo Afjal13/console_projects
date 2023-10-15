@@ -21,5 +21,11 @@ namespace Cricket_Application.Teams
                 Console.WriteLine();
             }
         }
+
+        public List<CricketPlayer> GetPlayers()
+        {
+            return PlayerList;
+        }
+
     }
 }
