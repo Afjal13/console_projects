@@ -90,38 +90,50 @@ namespace Cricket_Application
 
         GameStart:
             var random = new Random();
-            var runList = new List<int>() { 0,1,2,4,3,6,5, 0,7, 1, 2, 4, 3, 6 , 0, 1, 2, 4, 3, 6 ,5, 0, 1,8, 2, 4, 3, 6 , 0, 1, 2, 4,9, 3, 6 ,5,5,6,0,2,1,3,4};
-
             // Generate a random number (0 or 1) to simulate a coin toss
             int tossResult = random.Next(2);
             // Determine the result based on the random number
             string result = (tossResult == 0) ? "Bangladesh" : "England";
             int countBang=0;
             int countEng=0;
-            int sum=0;
+            int total_run=0;
+            int p1_run=0, p2_run=0;
+            int total_over = 0;
           
             var EngPlayers = englandTeam.GetPlayers();
-            //var totalBangPlayer = bangladeshTeam.GetPlayers().Count();
+            //var totalBangPlayer = bangladeshTeam.GetPlayers().Count();    
             var BangPlayers = bangladeshTeam.GetPlayers();
             do
             {
+                Console.WriteLine($"BAN : {total_run}    Over: {total_over}");
+                Console.WriteLine($"{BangPlayers[countBang]} : {p1_run}\n{BangPlayers[countBang+1]} : {p2_run}");
                 do
                 {
                     Console.WriteLine($"England boller Name: {EngPlayers[countEng].Name}");
                     for (int k = 1; k <= 2; k++)
                     {
                        
-                        for (int i = 1; i <= 6; i++)
+                        for (int i = 1; i <= 6;)
                         {
-                            int index = random.Next(runList.Count);
-                            int run = runList[index];
+                            int run = random.Next(0,10);
+                           
                             if(run==1 ||  run==2 || run==3 || run==4 || run == 6)
                             {
-                                sum=sum+run;
+                                total_run = total_run + run;
+                                i++;
                             }
-                            else
+                            else if (run == 5 || run == 7 || run == 8 || run == 9 || run==10)
                             {
-                                continue;
+                                if(run == 5)
+                                {
+                                    Console.WriteLine("No Ball!");
+                                    i=i+0;
+                                }
+                                
+                            }
+                            else if(run==0)
+                            {
+                                i++;
                             }
                         }
                     }
@@ -130,7 +142,7 @@ namespace Cricket_Application
                 } while (countEng <EngPlayers.Count);
                 countBang++;
             } while (countBang< BangPlayers.Count);
-            Console.WriteLine("Total Run: "+result+" = "+sum);
+            Console.WriteLine("Total Run: "+result+" = "+ total_run);
             
             Console.WriteLine("Players in Bangladesh Team:");
             bangladeshTeam.Display();
