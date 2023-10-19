@@ -99,55 +99,70 @@ namespace Cricket_Application
             int total_run=0;
             int p1_run=0, p2_run=0;
             int total_over = 0;
-          
+            int not_out_players = 2;
+            int baller_stack = 1;
+            int over_ball = 1;
+
             var EngPlayers = englandTeam.GetPlayers();
             //var totalBangPlayer = bangladeshTeam.GetPlayers().Count();    
             var BangPlayers = bangladeshTeam.GetPlayers();
             do
             {
                 Console.WriteLine($"BAN : {total_run}    Over: {total_over}");
-                Console.WriteLine($"{BangPlayers[countBang]} : {p1_run}\n{BangPlayers[countBang+1]} : {p2_run}");
+                Console.WriteLine($"{BangPlayers[countBang].Name} : {p1_run}\n{BangPlayers[countBang+1].Name} : {p2_run}");
                 do
                 {
                     Console.WriteLine($"England boller Name: {EngPlayers[countEng].Name}");
                     for (int k = 1; k <= 2; k++)
                     {
-                       
-                        for (int i = 1; i <= 6;)
+                        
+                        //for (int i = 1; i <= over_ball;)
+                        while(over_ball>0 && over_ball<7)
                         {
                             int run = random.Next(0,10);
                            
                             if(run==1 ||  run==2 || run==3 || run==4 || run == 6)
                             {
                                 total_run = total_run + run;
-                                i++;
+                                over_ball++;
                             }
                             else if (run == 5 || run == 7 || run == 8 || run == 9 || run==10)
                             {
                                 if(run == 5)
                                 {
                                     Console.WriteLine("No Ball!");
-                                    i=i+0;
+                                    no_ball_runStart:
+                                        int no_ball_run = random.Next(6);
+                                        if(no_ball_run == 5)
+                                            goto no_ball_runStart;
+                                        total_run = total_run + no_ball_run;
+
+                                    over_ball++;
+                                }else if (run == 7)
+                                {
+                                    Console.WriteLine("White Ball!");
+                                    total_run = total_run + 1;
                                 }
-                                
+                                else if (run == 8)
+                                {
+                                    Console.WriteLine("Out!");
+                                    not_out_players = not_out_players - 1;
+                                    over_ball++;
+                                }
+
                             }
                             else if(run==0)
                             {
-                                i++;
+                                over_ball++;
                             }
                         }
                     }
-                    
-                    countEng++;
-                } while (countEng <EngPlayers.Count);
-                countBang++;
-            } while (countBang< BangPlayers.Count);
+                    baller_stack = baller_stack - 1;
+                    //countEng++;
+                } while (baller_stack >0 && baller_stack<=1);
+                //countBang++;
+            } while (not_out_players > 1 && not_out_players <= 2);
             Console.WriteLine("Total Run: "+result+" = "+ total_run);
-            
-            Console.WriteLine("Players in Bangladesh Team:");
-            bangladeshTeam.Display();
-            Console.WriteLine("Players in England Team:");
-            englandTeam.Display();
         }
     }
 }
