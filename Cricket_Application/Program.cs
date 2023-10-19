@@ -98,10 +98,10 @@ namespace Cricket_Application
             int countEng=0;
             int total_run=0;
             int p1_run=0, p2_run=0;
-            int total_over = 0;
+            int total_over = 2;
             int not_out_players = 2;
             int baller_stack = 1;
-            int over_ball = 1;
+         
 
             var EngPlayers = englandTeam.GetPlayers();
             //var totalBangPlayer = bangladeshTeam.GetPlayers().Count();    
@@ -113,11 +113,12 @@ namespace Cricket_Application
                 do
                 {
                     Console.WriteLine($"England boller Name: {EngPlayers[countEng].Name}");
-                    for (int k = 1; k <= 2; k++)
+                    //for (int k = 1; k <= 2; k++)
+                    while(total_over>0 && total_over<=2)
                     {
-                        
-                        //for (int i = 1; i <= over_ball;)
-                        while(over_ball>0 && over_ball<7)
+
+                        int over_ball = 1;
+                        while (over_ball>0 && over_ball<=6)
                         {
                             int run = random.Next(0,10);
                            
@@ -156,6 +157,7 @@ namespace Cricket_Application
                                 over_ball++;
                             }
                         }
+                        total_over = total_over - 1;
                     }
                     baller_stack = baller_stack - 1;
                     //countEng++;
