@@ -97,16 +97,22 @@ namespace Cricket_Application
             Console.Write("Enter total T20 Match Over of Innings (0 < input <= 20): ");
             int innings_over = Convert.ToInt32(Console.ReadLine());
             MatchPlay matchPlay = new MatchPlay(bangladeshTeam, englandTeam);
-            var random = new Random();
-            // Generate a random number (0 or 1) to simulate a coin toss
-            int tossResult = random.Next(2);
-            // Determine the result based on the random number
-            string result = (tossResult == 0) ? "Bangladesh" : "England";
-
-            if(result == "Bangladesh" || result == "England") {
-                matchPlay.FirstInnings(ban_total_Players, innings_over);
+            var random = new Random();         
+           // int tossResult = random.Next(2);
+            int tossResult =1;
+           // string result = (tossResult == 0) ? "Bangladesh" : "England";
+            if(tossResult == 0) {
+                matchPlay.FirstInnings(ban_total_Players, innings_over, tossResult);
+                matchPlay.SecondInnings(eng_total_Players, innings_over, tossResult);
+                matchPlay.Display(tossResult);
             }
-            matchPlay.Display();
+            else
+            {
+                matchPlay.SecondInnings(eng_total_Players, innings_over, tossResult);
+                matchPlay.FirstInnings(eng_total_Players, innings_over, tossResult);
+                matchPlay.Display(tossResult);
+            }
+            
         }
     }
 }
