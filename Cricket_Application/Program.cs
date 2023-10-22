@@ -98,9 +98,8 @@ namespace Cricket_Application
             int innings_over = Convert.ToInt32(Console.ReadLine());
             MatchPlay matchPlay = new MatchPlay(bangladeshTeam, englandTeam);
             var random = new Random();         
-           // int tossResult = random.Next(2);
-            int tossResult =1;
-           // string result = (tossResult == 0) ? "Bangladesh" : "England";
+            int tossResult = random.Next(2);
+           
             if(tossResult == 0) {
                 matchPlay.FirstInnings(ban_total_Players, innings_over, tossResult);
                 matchPlay.SecondInnings(eng_total_Players, innings_over, tossResult);
