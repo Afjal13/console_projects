@@ -14,12 +14,13 @@ namespace Cricket_Application.Team
         public int Ban_Run { get; set; }
         public int Ban_Over { get; set; }
         public int Ban_Win_Player { get; set; }
+        public int Ban_Running_ball { get; set; }
         public int Eng_Run { get; set; }
         public int Eng_Over { get; set; }
         public int Eng_Win_Player { get; set; }
 
-        private  BangladeshTeam bangladeshTeam;
-        private  EnglandTeam englandTeam;
+        private BangladeshTeam bangladeshTeam;
+        private EnglandTeam englandTeam;
         List<CricketPlayer> BanPlayers;
         List<CricketPlayer> EngPlayers;
         public MatchPlay(BangladeshTeam bangladeshTeam, EnglandTeam englandTeam)
@@ -32,8 +33,8 @@ namespace Cricket_Application.Team
             EngPlayers = englandTeam.GetPlayers();
             BanPlayers = bangladeshTeam.GetPlayers();
             var random = new Random();
-            int countBang = 0, countEng = 0, total_run = 0, p1_run = 0, p2_run = 0, total_over = total_match_over, not_out_players = total_players, baller_stack = 3, running_over = 0,temp=0;
-            
+            int countBang = 0, countEng = 0, total_run = 0, p1_run = 0, p2_run = 0, total_over = total_match_over, not_out_players = total_players, baller_stack = 3, running_over = 0, temp = 0, running_ball=0;
+
 
             do
             {
@@ -42,7 +43,7 @@ namespace Cricket_Application.Team
                 {
 
 
-                    while (total_over > 0 && total_over <= 5 && not_out_players > 1 && not_out_players <= not_out_players + 1 )
+                    while (total_over > 0 && total_over <= 20 && not_out_players > 1 && not_out_players <= not_out_players + 1)
                     {
 
 
@@ -53,7 +54,7 @@ namespace Cricket_Application.Team
                             else
                             {
                                 running_over++;
-                                int running_ball = 0;
+                                running_ball = 0;
                                 int over_ball = 1;
                                 Console.Clear();
                                 Console.WriteLine($"BAN : {total_run}    Over: {running_over}.{running_ball}");
@@ -75,8 +76,8 @@ namespace Cricket_Application.Team
                                             if (run == 1 || run == 2 || run == 3 || run == 4 || run == 6)
                                             {
                                                 total_run = total_run + run;
-                                                over_ball++;
                                                 running_ball = over_ball;
+                                                over_ball++;
                                             }
                                             else if (run == 5 || run == 7 || run == 8 || run == 9 || run == 10)
                                             {
@@ -89,27 +90,51 @@ namespace Cricket_Application.Team
                                                         goto no_ball_runStart;
                                                     total_run = total_run + no_ball_run;
 
-                                                    over_ball++;
                                                     running_ball = over_ball;
+                                                    over_ball++;
                                                 }
                                                 else if (run == 7)
                                                 {
-                                                    Console.WriteLine("White Ball!");
-                                                    total_run = total_run + 1;
+                                                    int White_ball_run = random.Next(100);
+                                                    if (White_ball_run >= 0 && White_ball_run <= 6)
+                                                    {
+                                                        if (White_ball_run == 0)
+                                                        {
+                                                            running_ball = over_ball;
+                                                            over_ball++;
+                                                        }
+                                                        else if (White_ball_run == 1 || White_ball_run == 2 || White_ball_run == 3 || White_ball_run == 4 || White_ball_run == 6)
+                                                        {
+                                                            total_run = total_run + White_ball_run;
+                                                            running_ball = over_ball;
+                                                            over_ball++;
+                                                        }
+                                                        else
+                                                        {
+                                                            Console.WriteLine("Out!");
+                                                            not_out_players = not_out_players - 1;
+                                                            running_ball = over_ball;
+                                                            over_ball++;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        Console.WriteLine("White Ball!");
+                                                        total_run = total_run + 1;
+                                                    }
                                                 }
                                                 else if (run == 8)
                                                 {
                                                     Console.WriteLine("Out!");
                                                     not_out_players = not_out_players - 1;
-                                                    over_ball++;
                                                     running_ball = over_ball;
+                                                    over_ball++;
                                                 }
-
                                             }
                                             else if (run == 0)
                                             {
-                                                over_ball++;
                                                 running_ball = over_ball;
+                                                over_ball++;
                                             }
                                         }
                                     }
@@ -120,8 +145,8 @@ namespace Cricket_Application.Team
                                         if (run == 1 || run == 2 || run == 3 || run == 4 || run == 6)
                                         {
                                             total_run = total_run + run;
-                                            over_ball++;
                                             running_ball = over_ball;
+                                            over_ball++;
                                         }
                                         else if (run == 5 || run == 7 || run == 8 || run == 9 || run == 10)
                                         {
@@ -134,27 +159,52 @@ namespace Cricket_Application.Team
                                                     goto no_ball_runStart;
                                                 total_run = total_run + no_ball_run;
 
-                                                over_ball++;
                                                 running_ball = over_ball;
+                                                over_ball++;
                                             }
                                             else if (run == 7)
                                             {
-                                                Console.WriteLine("White Ball!");
-                                                total_run = total_run + 1;
+                                                int White_ball_run = random.Next(100);
+                                                if (White_ball_run >= 0 && White_ball_run <= 6)
+                                                {
+                                                    if (White_ball_run == 0)
+                                                    {
+                                                        running_ball = over_ball;
+                                                        over_ball++;
+                                                    }
+                                                    else if (White_ball_run == 1 || White_ball_run == 2 || White_ball_run == 3 || White_ball_run == 4 || White_ball_run == 6)
+                                                    {
+                                                        total_run = total_run + White_ball_run;
+                                                        running_ball = over_ball;
+                                                        over_ball++;
+                                                    }
+                                                    else
+                                                    {
+                                                        Console.WriteLine("Out!");
+                                                        not_out_players = not_out_players - 1;
+                                                        running_ball = over_ball;
+                                                        over_ball++;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine("White Ball!");
+                                                    total_run = total_run + 1;
+                                                }
                                             }
                                             else if (run == 8)
                                             {
                                                 Console.WriteLine("Out!");
                                                 not_out_players = not_out_players - 1;
-                                                over_ball++;
                                                 running_ball = over_ball;
+                                                over_ball++;
                                             }
 
                                         }
                                         else if (run == 0)
                                         {
-                                            over_ball++;
                                             running_ball = over_ball;
+                                            over_ball++;
                                         }
                                     }
 
@@ -162,11 +212,12 @@ namespace Cricket_Application.Team
 
                                 total_over = total_over - 1;
                             }
-                         
-                        }                          
-                        else {
+
+                        }
+                        else
+                        {
                             running_over++;
-                            int running_ball = 0;
+                            running_ball = 0;
                             int over_ball = 1;
                             Console.Clear();
                             Console.WriteLine($"BAN : {total_run}    Over: {running_over}.{running_ball}");
@@ -251,8 +302,33 @@ namespace Cricket_Application.Team
                                         }
                                         else if (run == 7)
                                         {
-                                            Console.WriteLine("White Ball!");
-                                            total_run = total_run + 1;
+                                            int White_ball_run = random.Next(100);
+                                            if (White_ball_run >= 0 && White_ball_run <= 6)
+                                            {
+                                                if (White_ball_run == 0)
+                                                {
+                                                    running_ball = over_ball;
+                                                    over_ball++;
+                                                }
+                                                else if (White_ball_run == 1 || White_ball_run == 2 || White_ball_run == 3 || White_ball_run == 4 || White_ball_run == 6)
+                                                {
+                                                    total_run = total_run + White_ball_run;
+                                                    running_ball = over_ball;
+                                                    over_ball++;
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine("Out!");
+                                                    not_out_players = not_out_players - 1;
+                                                    running_ball = over_ball;
+                                                    over_ball++;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("White Ball!");
+                                                total_run = total_run + 1;
+                                            }
                                         }
                                         else if (run == 8)
                                         {
@@ -271,9 +347,9 @@ namespace Cricket_Application.Team
                                 }
                             }
                             total_over = total_over - 1;
-                        }                      
+                        }
                     }
-                    if(toss_win==1)
+                    if (toss_win == 1)
                     {
                         if (temp < 0)
                         {
@@ -285,7 +361,8 @@ namespace Cricket_Application.Team
                             //countEng++;
                         }
                     }
-                    else{
+                    else
+                    {
                         baller_stack = baller_stack - 1;
                         //countEng++;
                     }
@@ -297,13 +374,14 @@ namespace Cricket_Application.Team
                     if (temp < 0)
                     {
                         break;
-                    }                    
-                }             
+                    }
+                }
             } while (not_out_players > 1 && not_out_players <= not_out_players + 1);
 
             Ban_Run = total_run;
             Ban_Over = running_over;
             Ban_Win_Player = not_out_players;
+            Ban_Running_ball = running_ball;
         }
         public void SecondInnings(int total_players, int total_match_over, int toss_win)
         {
@@ -326,9 +404,9 @@ namespace Cricket_Application.Team
                         int running_ball = 0;
                         int over_ball = 1;
                         Console.Clear();
-                        Console.WriteLine($"BAN : {total_run}    Over: {running_over}.{running_ball}");
+                        Console.WriteLine($"Eng : {total_run}    Over: {running_over}.{running_ball}");
                         Console.WriteLine($"{EngPlayers[countBang].Name} : {p1_run}\n{EngPlayers[countBang + 1].Name} : {p2_run}");
-                        Console.WriteLine($"England boller Name: {BanPlayers[countEng].Name}");
+                        Console.WriteLine($"Bangladesh boller Name: {BanPlayers[countEng].Name}");
 
 
                         while (over_ball > 0 && over_ball <= 6)
@@ -387,12 +465,12 @@ namespace Cricket_Application.Team
             Eng_Over = running_over;
             Eng_Win_Player = not_out_players;
         }
-        public void Display(int toss_win) 
+        public void Display(int toss_win)
         {
             bool win;
-            int win_run;
+            int win_run=0;
             int win_out;
-  
+
             if (toss_win == 0)
             {
                 if (Ban_Run > Eng_Run)
@@ -404,11 +482,25 @@ namespace Cricket_Application.Team
             }
             else
             {
-                Console.Clear();
-                Console.WriteLine($"Ban Run: {Ban_Run} Over: {Ban_Over}");
-                Console.WriteLine($"Ban Win by {Ban_Win_Player} Wicket");
+                if (Ban_Run > Eng_Run)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Ban Run: {Ban_Run} Over: {Ban_Over}.{Ban_Running_ball}");
+                    Console.WriteLine($"Eng Run: {Eng_Run} Over: {Eng_Over}.{Ban_Running_ball}");
+                    Console.WriteLine($"Ban Win by {Ban_Win_Player} Wicket");
+                }
+                else
+                {
+                    win_run = Eng_Run - Ban_Run;
+                    Console.Clear();
+                    Console.WriteLine($"Ban Run: {Ban_Run} Over: {Ban_Over}.{Ban_Running_ball}");
+                    Console.WriteLine($"Eng Run: {Eng_Run} Over: {Eng_Over}.{Ban_Running_ball}");
+                    Console.WriteLine($"Eng Win by {win_run} runs");
+
+                }
+                   
             }
-            
+
         }
 
     }
