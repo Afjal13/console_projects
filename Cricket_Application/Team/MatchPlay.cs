@@ -127,7 +127,7 @@ namespace Cricket_Application.Team
                                                     {
                                                         match_end = true;
                                                         break;
-                                                    }
+                                                    } 
                                                     over_ball++;
                                                     total_ball++;
                                                 }
@@ -219,6 +219,8 @@ namespace Cricket_Application.Team
                                     }
                                 }
                                 total_over = total_over - 1;
+                                if(total_over==0)
+                                    match_end=true;
                             }
                         }
                         else
@@ -394,6 +396,8 @@ namespace Cricket_Application.Team
                                 }
                             }
                             total_over = total_over - 1;
+                            if (total_over == 0)
+                                match_end = true;
                         }
                     }
                     if (toss_win == 1)
@@ -405,11 +409,15 @@ namespace Cricket_Application.Team
                         else
                         {
                             baller_stack = baller_stack - 1;
+                            if (match_end == true)
+                                break;
                         }
                     }
                     else
                     {
                         baller_stack = baller_stack - 1;
+                        if (match_end == true)
+                            break;
                     }
                 } while (baller_stack > 0 && baller_stack <= baller_stack + 1);
                 if (toss_win == 1)
@@ -619,6 +627,8 @@ namespace Cricket_Application.Team
 
                                 }
                                 total_over = total_over - 1;
+                                if (total_over == 0)
+                                    match_end = true;
                             }
                         }
                         else
@@ -793,6 +803,8 @@ namespace Cricket_Application.Team
                                 }
                             }
                             total_over = total_over - 1;
+                            if (total_over == 0)
+                                match_end = true;
                         }
                     }
                     if (toss_win == 0)
@@ -804,11 +816,15 @@ namespace Cricket_Application.Team
                         else
                         {
                             baller_stack = baller_stack - 1;
+                            if (match_end == true)
+                                break;
                         }
                     }
                     else
                     {
                         baller_stack = baller_stack - 1;
+                        if (match_end == true)
+                            break;
                     }
 
                 } while (baller_stack > 0 && baller_stack <= baller_stack + 1);
