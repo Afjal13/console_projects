@@ -25,6 +25,7 @@ namespace Cricket_Application.Team
         private EnglandTeam englandTeam;
         List<CricketPlayer> BanPlayers;
         List<CricketPlayer> EngPlayers;
+        List<int> outPlayerList = new List<int>();
         public MatchPlay(BangladeshTeam bangladeshTeam, EnglandTeam englandTeam)
         {
             this.bangladeshTeam = bangladeshTeam;
@@ -52,9 +53,6 @@ namespace Cricket_Application.Team
                             else
                             {
                                 int over_ball = 1;
-                              //  Console.Clear();
-                               // Console.WriteLine($"BAN : {total_run}    Over: {total_ball/6}.{total_ball%6}");
-                              //  Console.WriteLine($"{BanPlayers[countBang].Name} : {p1_run}\n{BanPlayers[countBang + 1].Name} : {p2_run}");
                                 Console.WriteLine($"England boller Name: {EngPlayers[countEng].Name}");
                                 while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                                 {
@@ -72,7 +70,6 @@ namespace Cricket_Application.Team
                                         else
                                         {
                                             int index = random.Next(runList.Count);
-                                           // int run = 8;
                                             int run = runList[index];
                                             if (run == 0 || run == 5 || run == 7 || run == 8)
                                                 default_out = 2;
@@ -239,15 +236,15 @@ namespace Cricket_Application.Team
                                                         }
                                                         else
                                                         {
-                                                      //      default_out = 2;
                                                             Console.WriteLine("Out!");
                                                             not_out_players = not_out_players - 1;
                                                             if (default_out == 2)
                                                             {
+                                                                outPlayerList.Add(batsman2);
                                                                 int k = 1;
                                                                 for (int i = 3; i <= 11; i++)
                                                                 {
-                                                                    if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1)
+                                                                    if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) ==false)
                                                                     {
                                                                         batsman2 += k;
                                                                         break;
@@ -261,10 +258,11 @@ namespace Cricket_Application.Team
                                                             }
                                                             else if (default_out == 1)
                                                             {
+                                                                outPlayerList.Add(batsman1);
                                                                 int k = 1;
                                                                 for (int i = 3; i <= 11; i++)
                                                                 {
-                                                                    if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2)
+                                                                    if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) ==false)
                                                                     {
                                                                         batsman1 += k;
                                                                         break;
@@ -286,22 +284,21 @@ namespace Cricket_Application.Team
                                                     }
                                                     else
                                                     {
-                                                  //      default_out = 2;
                                                         Console.WriteLine("White Ball!");
                                                         total_run = total_run + 1;
                                                     }
                                                 }
                                                 else if (run == 8)
                                                 {
-                                                  //  default_out = 2;
                                                     Console.WriteLine("Out!");
                                                     not_out_players = not_out_players - 1;
                                                     if (default_out == 2)
                                                     {
+                                                        outPlayerList.Add(batsman2);
                                                         int k = 1;
                                                         for (int i = 3; i <= 11; i++)
                                                         {
-                                                            if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1)
+                                                            if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) ==false)
                                                             {
                                                                 batsman2 += k;
                                                                 break;
@@ -315,10 +312,11 @@ namespace Cricket_Application.Team
                                                     }
                                                     else if (default_out == 1)
                                                     {
+                                                        outPlayerList.Add(batsman1);
                                                         int k = 1;
                                                         for (int i = 3; i <= 11; i++)
                                                         {
-                                                            if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2)
+                                                            if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) ==false)
                                                             {
                                                                 batsman1 += k;
                                                                 break;
@@ -340,7 +338,6 @@ namespace Cricket_Application.Team
                                             }
                                             else if (run == 0)
                                             {
-                                           //     default_out = 2;
                                                 over_ball++;
                                                 total_ball++;
                                             }
@@ -350,7 +347,6 @@ namespace Cricket_Application.Team
                                     {
                                         int index = random.Next(runList.Count);
                                         int run = runList[index];
-                                        // default_out = 0;
                                         if (run == 0 || run == 5 || run == 7 || run == 8)
                                             default_out = 2;
                                         if (run == 1 || run == 2 || run == 3 || run == 4 || run == 6)
@@ -517,8 +513,8 @@ namespace Cricket_Application.Team
                                                     }
                                                     else
                                                     {
-                                                     //   default_out = 2;
                                                         Console.WriteLine("Out!");
+                                                       
                                                         not_out_players = not_out_players - 1;
                                                         if (not_out_players == 1)
                                                         {                                                          
@@ -527,10 +523,11 @@ namespace Cricket_Application.Team
                                                         }
                                                         if (default_out == 2)
                                                         {
+                                                            outPlayerList.Add(batsman2);
                                                             int k = 1;
                                                             for (int i = 3; i <= 11; i++)
                                                             {
-                                                                if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1)
+                                                                if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) == false)
                                                                 {
                                                                     batsman2 += k;
                                                                     break;
@@ -544,10 +541,11 @@ namespace Cricket_Application.Team
                                                         }
                                                         else if (default_out == 1)
                                                         {
+                                                            outPlayerList.Add(batsman1);
                                                             int k = 1;
                                                             for (int i = 3; i <= 11; i++)
                                                             {
-                                                                if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2)
+                                                                if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k)==false)
                                                                 {
                                                                     batsman1 += k;
                                                                     break;
@@ -564,14 +562,12 @@ namespace Cricket_Application.Team
                                                 }
                                                 else
                                                 {
-                                                //    default_out = 2;
                                                     Console.WriteLine("White Ball!");
                                                     total_run = total_run + 1;
                                                 }
                                             }
                                             else if (run == 8)
                                             {
-                                             //   default_out = 2;
                                                 Console.WriteLine("Out!");
                                                 not_out_players = not_out_players - 1;
                                                 if (not_out_players == 1)
@@ -581,10 +577,11 @@ namespace Cricket_Application.Team
                                                 }
                                                 if (default_out == 2)
                                                 {
+                                                    outPlayerList.Add(batsman2);
                                                     int k = 1;
                                                     for (int i = 3; i <= 11; i++)
                                                     {
-                                                        if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1)
+                                                        if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) == false)
                                                         {
                                                             batsman2 += k;
                                                             break;
@@ -598,10 +595,11 @@ namespace Cricket_Application.Team
                                                 }
                                                 else if (default_out == 1)
                                                 {
+                                                    outPlayerList.Add(batsman1);
                                                     int k = 1;
                                                     for (int i = 3; i <= 11; i++)
                                                     {
-                                                        if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2)
+                                                        if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) == false)
                                                         {
                                                             batsman1 += k;
                                                             break;
@@ -618,7 +616,6 @@ namespace Cricket_Application.Team
                                         }
                                         else if (run == 0)
                                         {
-                                         //   default_out = 2;
                                             over_ball++;
                                             total_ball++;
                                         }
@@ -635,9 +632,6 @@ namespace Cricket_Application.Team
                         else
                         {
                             int over_ball = 1;
-                        //    Console.Clear();
-                          //  Console.WriteLine($"BAN : {total_run}    Over: {total_ball/6}.{total_ball%6}");
-                          //  Console.WriteLine($"{BanPlayers[countBang].Name} : {p1_run}\n{BanPlayers[countBang + 1].Name} : {p2_run}");
                             Console.WriteLine($"England boller Name: {EngPlayers[countEng].Name}");
                             while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                             {
@@ -655,8 +649,6 @@ namespace Cricket_Application.Team
                                     {
                                         int index = random.Next(runList.Count);
                                         int run = runList[index];
-                                        //int run = 8;
-                                        //  default_out = 0;
                                         if (run == 0 || run == 5 || run == 7 || run == 8)
                                             default_out = 2;
                                         if (run == 1 || run == 2 || run == 3 || run == 4 || run == 6) 
@@ -823,15 +815,15 @@ namespace Cricket_Application.Team
                                                     }
                                                     else
                                                     {
-                                                       // default_out = 2;
                                                         Console.WriteLine("Out!");
                                                         not_out_players = not_out_players - 1;
                                                         if (default_out == 2)
                                                         {
+                                                            outPlayerList.Add(batsman2);
                                                             int k = 1;
                                                             for (int i = 3; i <= 11; i++)
                                                             {
-                                                                if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1)
+                                                                if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) == false)
                                                                 {
                                                                     batsman2 += k;
                                                                     break;
@@ -845,10 +837,11 @@ namespace Cricket_Application.Team
                                                         }
                                                         else if (default_out == 1)
                                                         {
+                                                            outPlayerList.Add(batsman1);
                                                             int k = 1;
                                                             for (int i = 3; i <= 11; i++)
                                                             {
-                                                                if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2)
+                                                                if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) == false)
                                                                 {
                                                                     batsman1 += k;
                                                                     break;
@@ -870,23 +863,22 @@ namespace Cricket_Application.Team
                                                 }
                                                 else
                                                 {
-                                                   // default_out = 2;
                                                     Console.WriteLine("White Ball!");
                                                     total_run = total_run + 1;
                                                 }
                                             }
                                             else if (run == 8)
                                             {
-                                              //  default_out = 2;
                                                 Console.WriteLine("Out!");
                                                 not_out_players = not_out_players - 1;
 
                                                 if (default_out == 2)
                                                 {
+                                                    outPlayerList.Add(batsman2);
                                                     int k = 1;
                                                     for (int i = 3; i <= 11; i++)
                                                     {
-                                                        if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1)
+                                                        if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2+k)==false)
                                                         {
                                                             batsman2 += k;
                                                             break;
@@ -900,10 +892,11 @@ namespace Cricket_Application.Team
                                                 }
                                                 else if (default_out == 1)
                                                 {
+                                                    outPlayerList.Add(batsman1);
                                                     int k = 1;
                                                     for (int i = 3; i <= 11; i++)
                                                     {
-                                                        if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2)
+                                                        if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1+k)==false)
                                                         {
                                                             batsman1 += k;
                                                             break;
@@ -925,7 +918,6 @@ namespace Cricket_Application.Team
                                         }
                                         else if (run == 0)
                                         {
-                                         //   default_out = 2;
                                             over_ball++;
                                             total_ball++;
                                         }
@@ -935,8 +927,6 @@ namespace Cricket_Application.Team
                                 {
                                     int index = random.Next(runList.Count);
                                     int run = runList[index];
-                                    // int run = 8;
-                                    ///  default_out = 0;
                                     if (run == 0 || run == 5 || run == 7 || run == 8)
                                         default_out = 2;
                                     if (run == 1 || run == 2 || run == 3 || run == 4 || run == 6)
@@ -1104,15 +1094,15 @@ namespace Cricket_Application.Team
                                                 }
                                                 else
                                                 {
-                                                   // default_out = 2;
                                                     Console.WriteLine("Out!");
                                                     not_out_players = not_out_players - 1;
                                                     if (default_out == 2)
                                                     {
+                                                        outPlayerList.Add(batsman2);
                                                         int k = 1;
                                                         for (int i = 3; i <= 11; i++)
                                                         {
-                                                            if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1)
+                                                            if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) ==false)
                                                             {
                                                                 batsman2 += k;
                                                                 break;
@@ -1126,10 +1116,11 @@ namespace Cricket_Application.Team
                                                     }
                                                     else if (default_out == 1)
                                                     {
+                                                        outPlayerList.Add(batsman1);
                                                         int k = 1;
                                                         for (int i = 3; i <= 11; i++)
                                                         {
-                                                            if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2)
+                                                            if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) ==false)
                                                             {
                                                                 batsman1 += k;
                                                                 break;
@@ -1151,22 +1142,21 @@ namespace Cricket_Application.Team
                                             }
                                             else
                                             {
-                                               // default_out = 2;
                                                 Console.WriteLine("White Ball!");
                                                 total_run = total_run + 1;
                                             }
                                         }
                                         else if (run == 8)
                                         {
-                                           // default_out = 2;
                                             Console.WriteLine("Out!");
                                             not_out_players = not_out_players - 1;
                                             if (default_out == 2)
                                             {
+                                                outPlayerList.Add (batsman2);
                                                 int k = 1;
                                                 for (int i = 3; i <= 11; i++)
                                                 {
-                                                    if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1)
+                                                    if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) ==false)
                                                     {
                                                         batsman2 += k;
                                                         break;
@@ -1180,10 +1170,11 @@ namespace Cricket_Application.Team
                                             }
                                             else if (default_out == 1)
                                             {
+                                                outPlayerList.Add(batsman1);
                                                 int k = 1;
                                                 for (int i = 3; i <= 11; i++)
                                                 {
-                                                    if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2)
+                                                    if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) ==false)
                                                     {
                                                         batsman1 += k;
                                                         break;
@@ -1206,8 +1197,6 @@ namespace Cricket_Application.Team
                                     }
                                     else if (run == 0)
                                     {
-
-                                        //default_out = 2;
                                         over_ball++;
                                         total_ball++;
                                     }
@@ -2505,13 +2494,12 @@ namespace Cricket_Application.Team
 
         }
 
-        //public int batsman1(int default_out)
-        //{
-        //    return default_out;
-        //}
-        //public int batsman2(int default_out)
-        //{
-        //    return default_out;
-        //}
+        public bool IsPlayerAlreadyOut(int out_player)
+        {
+            bool isOut=false;
+            if(outPlayerList.Contains(out_player))
+                isOut = true;
+            return isOut;
+        }
     }
 }
