@@ -38,8 +38,8 @@ namespace Cricket_Application.Team
             var random = new Random();
             int countBang = 0, countEng = 0, total_run = 0, p1_run = 0, p2_run = 0, total_over = total_match_over, not_out_players = total_players, baller_stack = 3, total_ball = 0, temp = 0, running_ball = 0;
             var runList = new List<int>() { 0, 1, 0, 0, 3, 0, 1, 0, 7, 1, 2, 0, 1, 2, 0, 1, 1, 0, 2, 0, 1, 8, 0, 0, 1, 0, 0, 1, 1, 1, 6, 0, 0, 1, 4, 1, 0, 2, 1, 0, 1, 1, 5, 0, 0, 0, 2, 1, 1, 0 };
-            int batsman1=0,batsman2=1, default_out=0,swapVariableData;
-            bool match_end=false,is_out=false;
+            int batsman1 = 0, batsman2 = 1, default_out = 2, swapVariableData, run = 0;
+            bool match_end = false, is_out = false;
             do
             {
                 do
@@ -60,7 +60,7 @@ namespace Cricket_Application.Team
                                         Console.WriteLine($"BAN : {total_run}/{total_players - not_out_players}\tOver: {total_ball / 6}.{(total_ball % 6) + 1}");
                                     else
                                         Console.WriteLine($"BAN : {total_run}/{total_players - not_out_players}\tOver: {(total_ball / 6) + 1}.{0}");
-                                    
+
                                     Console.WriteLine($"{BanPlayers[batsman1].Name} : {p1_run}\n{BanPlayers[batsman2].Name} : {p2_run}");
                                     if (toss_win == 1)
                                     {
@@ -70,53 +70,29 @@ namespace Cricket_Application.Team
                                         else
                                         {
                                             int index = random.Next(runList.Count);
-                                            int run = runList[index];
-                                            if (run == 0 || run == 5 || run == 7 || run == 8)
+                                            run = runList[index];
+                                            if (run == 5 || run == 7 || run == 8)
                                                 default_out = 2;
                                             if (run == 1 || run == 2 || run == 3 || run == 4 || run == 6)
                                             {
                                                 if (run == 2 || run == 4 || run == 6)
                                                 {
                                                     //for even run 
-                                                    if(default_out == 0)
-                                                    {
+                                                    if(default_out==2)
                                                         default_out = 2;
-                                                    }
-                                                    else if (default_out == 1)
-                                                    {
-                                                        swapVariableData = batsman1;
-                                                        batsman1 = batsman2; 
-                                                        batsman2 = swapVariableData;
+                                                    else 
                                                         default_out = 1;
-                                                    }
-                                                    else
-                                                    {
-                                                        default_out = 2;
-                                                    }
-                                                        
                                                 }
-
                                                 else
                                                 {
                                                     //for odd run 
-                                                    if (default_out == 0)
-                                                    {
-                                                        swapVariableData = batsman1;
-                                                        batsman1 = batsman2;
-                                                        batsman2 = swapVariableData;
+                                                    swapVariableData = batsman2;
+                                                    batsman2 = batsman1;
+                                                    batsman1 = swapVariableData;
+                                                    if (default_out == 2)
                                                         default_out = 1;
-                                                    }
-                                                    else if (default_out == 1)
-                                                    {                                                       
-                                                        default_out = 2;
-                                                    }
                                                     else
-                                                    {
-                                                        swapVariableData = batsman2;
-                                                        batsman2 = batsman1;
-                                                        batsman1 = swapVariableData;                                                                                                            
-                                                        default_out = 1;
-                                                    }
+                                                        default_out = 2;
                                                 }
 
                                                 total_run = total_run + run;
@@ -132,50 +108,37 @@ namespace Cricket_Application.Team
                                                     int no_ball_run = random.Next(6);
                                                     if (no_ball_run == 5)
                                                         goto no_ball_runStart;
-                                                    if (no_ball_run == 2 || no_ball_run == 4 || no_ball_run == 6)
+                                                    run = no_ball_run;
+                                                    if (no_ball_run == 0)
                                                     {
-                                                        //for even run 
-                                                        if (default_out == 0)
-                                                        {
-                                                            default_out = 2;
-                                                        }
-                                                        else if (default_out == 1)
-                                                        {
-                                                            swapVariableData = batsman1;
-                                                            batsman1 = batsman2;
-                                                            batsman2 = swapVariableData;
-                                                            default_out = 1;
-                                                        }
-                                                        else
-                                                        {
-                                                            default_out = 2;
-                                                        }
-                                                    }                                                       
+                                                        over_ball++;
+                                                        total_ball++;
+                                                    }
                                                     else
                                                     {
-                                                        //for odd run 
-                                                        if (default_out == 0)
+                                                        if (no_ball_run == 2 || no_ball_run == 4 || no_ball_run == 6)
                                                         {
-                                                            swapVariableData = batsman1;
-                                                            batsman1 = batsman2;
-                                                            batsman2 = swapVariableData;
-                                                            default_out = 1;
-                                                        }
-                                                        else if (default_out == 1)
-                                                        {
-                                                            default_out = 2;
+                                                            //for even run 
+                                                            if (default_out == 2)
+                                                                default_out = 2;
+                                                            else
+                                                                default_out = 1;
                                                         }
                                                         else
                                                         {
+                                                            //for odd run 
                                                             swapVariableData = batsman2;
                                                             batsman2 = batsman1;
                                                             batsman1 = swapVariableData;
-                                                            default_out = 1;
+                                                            if (default_out == 2)
+                                                                default_out = 1;
+                                                            else
+                                                                default_out = 2;
                                                         }
-                                                    }
-                                                    total_run = total_run + no_ball_run;
-                                                    over_ball++;
-                                                    total_ball++;
+                                                        total_run = total_run + no_ball_run;
+                                                        over_ball++;
+                                                        total_ball++;
+                                                    }                                                  
                                                 }
                                                 else if (run == 7)
                                                 {
@@ -184,51 +147,31 @@ namespace Cricket_Application.Team
                                                     {
                                                         if (White_ball_run == 0)
                                                         {
+                                                            run = 0;
                                                             over_ball++;
                                                             total_ball++;
                                                         }
                                                         else if (White_ball_run == 1 || White_ball_run == 2 || White_ball_run == 3 || White_ball_run == 4 || White_ball_run == 6)
                                                         {
+                                                            run = White_ball_run;
                                                             if (White_ball_run == 2 || White_ball_run == 4 || White_ball_run == 6)
                                                             {
                                                                 //for even run 
-                                                                if (default_out == 0)
-                                                                {
+                                                                if (default_out == 2)
                                                                     default_out = 2;
-                                                                }
-                                                                else if (default_out == 1)
-                                                                {
-                                                                    swapVariableData = batsman1;
-                                                                    batsman1 = batsman2;
-                                                                    batsman2 = swapVariableData;
-                                                                    default_out = 1;
-                                                                }
                                                                 else
-                                                                {
-                                                                    default_out = 2;
-                                                                }
+                                                                    default_out = 1;
                                                             }
                                                             else
                                                             {
-                                                                //for odd run 
-                                                                if (default_out == 0)
-                                                                {
-                                                                    swapVariableData = batsman1;
-                                                                    batsman1 = batsman2;
-                                                                    batsman2 = swapVariableData;
+                                                                ////for odd run 
+                                                                swapVariableData = batsman2;
+                                                                batsman2 = batsman1;
+                                                                batsman1 = swapVariableData;
+                                                                if (default_out == 2)
                                                                     default_out = 1;
-                                                                }
-                                                                else if (default_out == 1)
-                                                                {
-                                                                    default_out = 2;
-                                                                }
                                                                 else
-                                                                {
-                                                                    swapVariableData = batsman2;
-                                                                    batsman2 = batsman1;
-                                                                    batsman1 = swapVariableData;
-                                                                    default_out = 1;
-                                                                }
+                                                                    default_out = 2;
                                                             }
                                                             total_run = total_run + White_ball_run;
                                                             over_ball++;
@@ -236,6 +179,7 @@ namespace Cricket_Application.Team
                                                         }
                                                         else
                                                         {
+                                                            run = 8;
                                                             Console.WriteLine("Out!");
                                                             not_out_players = not_out_players - 1;
                                                             if (default_out == 2)
@@ -244,7 +188,7 @@ namespace Cricket_Application.Team
                                                                 int k = 1;
                                                                 for (int i = 3; i <= 11; i++)
                                                                 {
-                                                                    if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) ==false)
+                                                                    if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) == false)
                                                                     {
                                                                         batsman2 += k;
                                                                         break;
@@ -262,7 +206,7 @@ namespace Cricket_Application.Team
                                                                 int k = 1;
                                                                 for (int i = 3; i <= 11; i++)
                                                                 {
-                                                                    if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) ==false)
+                                                                    if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) == false)
                                                                     {
                                                                         batsman1 += k;
                                                                         break;
@@ -274,7 +218,7 @@ namespace Cricket_Application.Team
                                                                 }
                                                             }
                                                             if (not_out_players == 1)
-                                                            {                                                                
+                                                            {
                                                                 match_end = true;
                                                                 break;
                                                             }
@@ -284,12 +228,14 @@ namespace Cricket_Application.Team
                                                     }
                                                     else
                                                     {
+                                                        run = 0;
                                                         Console.WriteLine("White Ball!");
                                                         total_run = total_run + 1;
                                                     }
                                                 }
                                                 else if (run == 8)
                                                 {
+                                                    run = 8;
                                                     Console.WriteLine("Out!");
                                                     not_out_players = not_out_players - 1;
                                                     if (default_out == 2)
@@ -298,7 +244,7 @@ namespace Cricket_Application.Team
                                                         int k = 1;
                                                         for (int i = 3; i <= 11; i++)
                                                         {
-                                                            if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) ==false)
+                                                            if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) == false)
                                                             {
                                                                 batsman2 += k;
                                                                 break;
@@ -316,7 +262,7 @@ namespace Cricket_Application.Team
                                                         int k = 1;
                                                         for (int i = 3; i <= 11; i++)
                                                         {
-                                                            if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) ==false)
+                                                            if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) == false)
                                                             {
                                                                 batsman1 += k;
                                                                 break;
@@ -328,16 +274,17 @@ namespace Cricket_Application.Team
                                                         }
                                                     }
                                                     if (not_out_players == 1)
-                                                    {                                                     
+                                                    {
                                                         match_end = true;
                                                         break;
-                                                    } 
+                                                    }
                                                     over_ball++;
                                                     total_ball++;
                                                 }
                                             }
                                             else if (run == 0)
                                             {
+                                                run = 0;
                                                 over_ball++;
                                                 total_ball++;
                                             }
@@ -346,51 +293,29 @@ namespace Cricket_Application.Team
                                     else
                                     {
                                         int index = random.Next(runList.Count);
-                                        int run = runList[index];
-                                        if (run == 0 || run == 5 || run == 7 || run == 8)
+                                        run = runList[index];
+                                        if (run == 5 || run == 7 || run == 8)
                                             default_out = 2;
                                         if (run == 1 || run == 2 || run == 3 || run == 4 || run == 6)
                                         {
                                             if (run == 2 || run == 4 || run == 6)
                                             {
                                                 //for even run 
-                                                if (default_out == 0)
-                                                {
+                                                if (default_out == 2)
                                                     default_out = 2;
-                                                }
-                                                else if (default_out == 1)
-                                                {
-                                                    swapVariableData = batsman1;
-                                                    batsman1 = batsman2;
-                                                    batsman2 = swapVariableData;
-                                                    default_out = 1;
-                                                }
                                                 else
-                                                {
-                                                    default_out = 2;
-                                                }
+                                                    default_out = 1;
                                             }
                                             else
                                             {
                                                 //for odd run 
-                                                if (default_out == 0)
-                                                {
-                                                    swapVariableData = batsman1;
-                                                    batsman1 = batsman2;
-                                                    batsman2 = swapVariableData;
+                                                swapVariableData = batsman2;
+                                                batsman2 = batsman1;
+                                                batsman1 = swapVariableData;
+                                                if (default_out == 2)
                                                     default_out = 1;
-                                                }
-                                                else if (default_out == 1)
-                                                {
-                                                    default_out = 2;
-                                                }
                                                 else
-                                                {
-                                                    swapVariableData = batsman2;
-                                                    batsman2 = batsman1;
-                                                    batsman1 = swapVariableData;
-                                                    default_out = 1;
-                                                }
+                                                    default_out = 2;
                                             }
 
                                             total_run = total_run + run;
@@ -407,51 +332,37 @@ namespace Cricket_Application.Team
                                                 if (no_ball_run == 5)
                                                     goto no_ball_runStart;
 
-                                                if (no_ball_run == 2 || no_ball_run == 4 || no_ball_run == 6)
+                                                run = no_ball_run;
+                                                if (no_ball_run == 0)
                                                 {
-                                                    //for even run 
-                                                    if (default_out == 0)
-                                                    {
-                                                        default_out = 2;
-                                                    }
-                                                    else if (default_out == 1)
-                                                    {
-                                                        swapVariableData = batsman1;
-                                                        batsman1 = batsman2;
-                                                        batsman2 = swapVariableData;
-                                                        default_out = 1;
-                                                    }
-                                                    else
-                                                    {
-                                                        default_out = 2;
-                                                    }
+                                                    over_ball++;
+                                                    total_ball++;
                                                 }
                                                 else
                                                 {
-                                                    //for odd run 
-                                                    if (default_out == 0)
+                                                    if (no_ball_run == 2 || no_ball_run == 4 || no_ball_run == 6)
                                                     {
-                                                        swapVariableData = batsman1;
-                                                        batsman1 = batsman2;
-                                                        batsman2 = swapVariableData;
-                                                        default_out = 1;
-                                                    }
-                                                    else if (default_out == 1)
-                                                    {
-                                                        default_out = 2;
+                                                        //for even run 
+                                                        if (default_out == 2)
+                                                            default_out = 2;
+                                                        else
+                                                            default_out = 1;
                                                     }
                                                     else
                                                     {
+                                                        //for odd run 
                                                         swapVariableData = batsman2;
                                                         batsman2 = batsman1;
                                                         batsman1 = swapVariableData;
-                                                        default_out = 1;
+                                                        if (default_out == 2)
+                                                            default_out = 1;
+                                                        else
+                                                            default_out = 2;
                                                     }
+                                                    total_run = total_run + no_ball_run;
+                                                    over_ball++;
+                                                    total_ball++;
                                                 }
-
-                                                total_run = total_run + no_ball_run;
-                                                over_ball++;
-                                                total_ball++;
                                             }
                                             else if (run == 7)
                                             {
@@ -460,51 +371,31 @@ namespace Cricket_Application.Team
                                                 {
                                                     if (White_ball_run == 0)
                                                     {
+                                                        run = 0;
                                                         over_ball++;
                                                         total_ball++;
                                                     }
                                                     else if (White_ball_run == 1 || White_ball_run == 2 || White_ball_run == 3 || White_ball_run == 4 || White_ball_run == 6)
                                                     {
+                                                        run = White_ball_run;
                                                         if (White_ball_run == 2 || White_ball_run == 4 || White_ball_run == 6)
                                                         {
                                                             //for even run 
-                                                            if (default_out == 0)
-                                                            {
+                                                            if (default_out == 2)
                                                                 default_out = 2;
-                                                            }
-                                                            else if (default_out == 1)
-                                                            {
-                                                                swapVariableData = batsman1;
-                                                                batsman1 = batsman2;
-                                                                batsman2 = swapVariableData;
-                                                                default_out = 1;
-                                                            }
                                                             else
-                                                            {
-                                                                default_out = 2;
-                                                            }
+                                                                default_out = 1;
                                                         }
                                                         else
                                                         {
                                                             //for odd run 
-                                                            if (default_out == 0)
-                                                            {
-                                                                swapVariableData = batsman1;
-                                                                batsman1 = batsman2;
-                                                                batsman2 = swapVariableData;
+                                                            swapVariableData = batsman2;
+                                                            batsman2 = batsman1;
+                                                            batsman1 = swapVariableData;
+                                                            if (default_out == 2)
                                                                 default_out = 1;
-                                                            }
-                                                            else if (default_out == 1)
-                                                            {
-                                                                default_out = 2;
-                                                            }
                                                             else
-                                                            {
-                                                                swapVariableData = batsman2;
-                                                                batsman2 = batsman1;
-                                                                batsman1 = swapVariableData;
-                                                                default_out = 1;
-                                                            }
+                                                                default_out = 2;
                                                         }
 
                                                         total_run = total_run + White_ball_run;
@@ -513,11 +404,12 @@ namespace Cricket_Application.Team
                                                     }
                                                     else
                                                     {
+                                                        run = 8;
                                                         Console.WriteLine("Out!");
-                                                       
+
                                                         not_out_players = not_out_players - 1;
                                                         if (not_out_players == 1)
-                                                        {                                                          
+                                                        {
                                                             match_end = true;
                                                             break;
                                                         }
@@ -545,7 +437,7 @@ namespace Cricket_Application.Team
                                                             int k = 1;
                                                             for (int i = 3; i <= 11; i++)
                                                             {
-                                                                if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k)==false)
+                                                                if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) == false)
                                                                 {
                                                                     batsman1 += k;
                                                                     break;
@@ -562,16 +454,18 @@ namespace Cricket_Application.Team
                                                 }
                                                 else
                                                 {
+                                                    run = 0;
                                                     Console.WriteLine("White Ball!");
                                                     total_run = total_run + 1;
                                                 }
                                             }
                                             else if (run == 8)
                                             {
+                                                run = 8;
                                                 Console.WriteLine("Out!");
                                                 not_out_players = not_out_players - 1;
                                                 if (not_out_players == 1)
-                                                {                                               
+                                                {
                                                     match_end = true;
                                                     break;
                                                 }
@@ -622,11 +516,31 @@ namespace Cricket_Application.Team
                                     }
                                 }
                                 total_over = total_over - 1;
-                                if(default_out==2)
-                                    default_out = 1;
-                                
-                                if (total_over==0)
-                                    match_end=true;
+                                //issue
+                                if (default_out == 2)
+                                {
+                                    if (run == 0 || run == 2 || run == 4 || run == 6 || run == 8)
+                                    {
+                                        swapVariableData = batsman2;
+                                        batsman2 = batsman1;
+                                        batsman1 = swapVariableData;
+                                        default_out = 1;
+                                    }
+                                }
+                                else
+                                {
+                                    if (run == 0 || run == 2 || run == 4 || run == 6 || run == 8)
+                                    {
+                                        swapVariableData = batsman2;
+                                        batsman2 = batsman1;
+                                        batsman1 = swapVariableData;
+                                        default_out = 2;
+                                    }
+                                }
+
+
+                                if (total_over == 0)
+                                    match_end = true;
                             }
                         }
                         else
@@ -638,7 +552,7 @@ namespace Cricket_Application.Team
                                 if (over_ball != 6)
                                     Console.WriteLine($"BAN : {total_run}/{total_players - not_out_players}\tOver: {total_ball / 6}.{(total_ball % 6) + 1}");
                                 else
-                                    Console.WriteLine($"BAN : {total_run}/{total_players - not_out_players}\tOver: {(total_ball / 6)+1}.{0}");
+                                    Console.WriteLine($"BAN : {total_run}/{total_players - not_out_players}\tOver: {(total_ball / 6) + 1}.{0}");
                                 Console.WriteLine($"{BanPlayers[batsman1].Name} : {p1_run}\n{BanPlayers[batsman2].Name} : {p2_run}");
                                 if (toss_win == 1)
                                 {
@@ -648,51 +562,29 @@ namespace Cricket_Application.Team
                                     else
                                     {
                                         int index = random.Next(runList.Count);
-                                        int run = runList[index];
-                                        if (run == 0 || run == 5 || run == 7 || run == 8)
+                                        run = runList[index];
+                                        if (run == 5 || run == 7 || run == 8)
                                             default_out = 2;
-                                        if (run == 1 || run == 2 || run == 3 || run == 4 || run == 6) 
+                                        if (run == 1 || run == 2 || run == 3 || run == 4 || run == 6)
                                         {
                                             if (run == 2 || run == 4 || run == 6)
                                             {
                                                 //for even run 
-                                                if (default_out == 0)
-                                                {
+                                                if (default_out == 2)
                                                     default_out = 2;
-                                                }
-                                                else if (default_out == 1)
-                                                {
-                                                    swapVariableData = batsman1;
-                                                    batsman1 = batsman2;
-                                                    batsman2 = swapVariableData;
-                                                    default_out = 1;
-                                                }
                                                 else
-                                                {
-                                                    default_out = 2;
-                                                }
+                                                    default_out = 1;
                                             }
                                             else
                                             {
                                                 //for odd run 
-                                                if (default_out == 0)
-                                                {
-                                                    swapVariableData = batsman1;
-                                                    batsman1 = batsman2;
-                                                    batsman2 = swapVariableData;
+                                                swapVariableData = batsman2;
+                                                batsman2 = batsman1;
+                                                batsman1 = swapVariableData;
+                                                if (default_out == 2)
                                                     default_out = 1;
-                                                }
-                                                else if (default_out == 1)
-                                                {
-                                                    default_out = 2;
-                                                }
                                                 else
-                                                {
-                                                    swapVariableData = batsman2;
-                                                    batsman2 = batsman1;
-                                                    batsman1 = swapVariableData;
-                                                    default_out = 1;
-                                                }
+                                                    default_out = 2;
                                             }
 
                                             total_run = total_run + run;
@@ -708,52 +600,37 @@ namespace Cricket_Application.Team
                                                 int no_ball_run = random.Next(6);
                                                 if (no_ball_run == 5)
                                                     goto no_ball_runStart;
-
-                                                if (no_ball_run == 2 || no_ball_run == 4 || no_ball_run == 6)
+                                                run = no_ball_run;
+                                                if (no_ball_run == 0)
                                                 {
-                                                    //for even run 
-                                                    if (default_out == 0)
-                                                    {
-                                                        default_out = 2;
-                                                    }
-                                                    else if (default_out == 1)
-                                                    {
-                                                        swapVariableData = batsman1;
-                                                        batsman1 = batsman2;
-                                                        batsman2 = swapVariableData;
-                                                        default_out = 1;
-                                                    }
-                                                    else
-                                                    {
-                                                        default_out = 2;
-                                                    }
+                                                    over_ball++;
+                                                    total_ball++;
                                                 }
                                                 else
                                                 {
-                                                    //for odd run 
-                                                    if (default_out == 0)
+                                                    if (no_ball_run == 2 || no_ball_run == 4 || no_ball_run == 6)
                                                     {
-                                                        swapVariableData = batsman1;
-                                                        batsman1 = batsman2;
-                                                        batsman2 = swapVariableData;
-                                                        default_out = 1;
-                                                    }
-                                                    else if (default_out == 1)
-                                                    {
-                                                        default_out = 2;
+                                                        //for even run 
+                                                        if (default_out == 2)
+                                                            default_out = 2;
+                                                        else
+                                                            default_out = 1;
                                                     }
                                                     else
                                                     {
+                                                        //for odd run 
                                                         swapVariableData = batsman2;
                                                         batsman2 = batsman1;
                                                         batsman1 = swapVariableData;
-                                                        default_out = 1;
+                                                        if (default_out == 2)
+                                                            default_out = 1;
+                                                        else
+                                                            default_out = 2;
                                                     }
+                                                    total_run = total_run + no_ball_run;
+                                                    over_ball++;
+                                                    total_ball++;
                                                 }
-
-                                                total_run = total_run + no_ball_run;
-                                                over_ball++;
-                                                total_ball++;
                                             }
                                             else if (run == 7)
                                             {
@@ -762,51 +639,32 @@ namespace Cricket_Application.Team
                                                 {
                                                     if (White_ball_run == 0)
                                                     {
+                                                        run = 0;
                                                         over_ball++;
                                                         total_ball++;
                                                     }
                                                     else if (White_ball_run == 1 || White_ball_run == 2 || White_ball_run == 3 || White_ball_run == 4 || White_ball_run == 6)
                                                     {
+                                                        run = White_ball_run;
                                                         if (White_ball_run == 2 || White_ball_run == 4 || White_ball_run == 6)
                                                         {
                                                             //for even run 
-                                                            if (default_out == 0)
-                                                            {
+                                                            if (default_out == 2)
                                                                 default_out = 2;
-                                                            }
-                                                            else if (default_out == 1)
-                                                            {
-                                                                swapVariableData = batsman1;
-                                                                batsman1 = batsman2;
-                                                                batsman2 = swapVariableData;
-                                                                default_out = 1;
-                                                            }
                                                             else
-                                                            {
-                                                                default_out = 2;
-                                                            }
+                                                                default_out = 1;
+
                                                         }
                                                         else
                                                         {
                                                             //for odd run 
-                                                            if (default_out == 0)
-                                                            {
-                                                                swapVariableData = batsman1;
-                                                                batsman1 = batsman2;
-                                                                batsman2 = swapVariableData;
+                                                            swapVariableData = batsman2;
+                                                            batsman2 = batsman1;
+                                                            batsman1 = swapVariableData;
+                                                            if (default_out == 2)
                                                                 default_out = 1;
-                                                            }
-                                                            else if (default_out == 1)
-                                                            {
-                                                                default_out = 2;
-                                                            }
                                                             else
-                                                            {
-                                                                swapVariableData = batsman2;
-                                                                batsman2 = batsman1;
-                                                                batsman1 = swapVariableData;
-                                                                default_out = 1;
-                                                            }
+                                                                default_out = 2;
                                                         }
 
                                                         total_run = total_run + White_ball_run;
@@ -815,6 +673,7 @@ namespace Cricket_Application.Team
                                                     }
                                                     else
                                                     {
+                                                        run = 8;
                                                         Console.WriteLine("Out!");
                                                         not_out_players = not_out_players - 1;
                                                         if (default_out == 2)
@@ -853,7 +712,7 @@ namespace Cricket_Application.Team
                                                             }
                                                         }
                                                         if (not_out_players == 1)
-                                                        {                                                          
+                                                        {
                                                             match_end = true;
                                                             break;
                                                         }
@@ -863,12 +722,14 @@ namespace Cricket_Application.Team
                                                 }
                                                 else
                                                 {
+                                                    run = 0;
                                                     Console.WriteLine("White Ball!");
                                                     total_run = total_run + 1;
                                                 }
                                             }
                                             else if (run == 8)
                                             {
+                                                run = 8;
                                                 Console.WriteLine("Out!");
                                                 not_out_players = not_out_players - 1;
 
@@ -878,7 +739,7 @@ namespace Cricket_Application.Team
                                                     int k = 1;
                                                     for (int i = 3; i <= 11; i++)
                                                     {
-                                                        if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2+k)==false)
+                                                        if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) == false)
                                                         {
                                                             batsman2 += k;
                                                             break;
@@ -896,7 +757,7 @@ namespace Cricket_Application.Team
                                                     int k = 1;
                                                     for (int i = 3; i <= 11; i++)
                                                     {
-                                                        if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1+k)==false)
+                                                        if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) == false)
                                                         {
                                                             batsman1 += k;
                                                             break;
@@ -908,7 +769,7 @@ namespace Cricket_Application.Team
                                                     }
                                                 }
                                                 if (not_out_players == 1)
-                                                {                                                  
+                                                {
                                                     match_end = true;
                                                     break;
                                                 }
@@ -926,51 +787,29 @@ namespace Cricket_Application.Team
                                 else
                                 {
                                     int index = random.Next(runList.Count);
-                                    int run = runList[index];
-                                    if (run == 0 || run == 5 || run == 7 || run == 8)
+                                    run = runList[index];
+                                    if (run == 5 || run == 7 || run == 8)
                                         default_out = 2;
                                     if (run == 1 || run == 2 || run == 3 || run == 4 || run == 6)
                                     {
                                         if (run == 2 || run == 4 || run == 6)
                                         {
                                             //for even run 
-                                            if (default_out == 0)
-                                            {
+                                            if (default_out == 2)
                                                 default_out = 2;
-                                            }
-                                            else if (default_out == 1)
-                                            {
-                                                swapVariableData = batsman1;
-                                                batsman1 = batsman2;
-                                                batsman2 = swapVariableData;
-                                                default_out = 1;
-                                            }
                                             else
-                                            {
-                                                default_out = 2;
-                                            }
+                                                default_out = 1;
                                         }
                                         else
                                         {
                                             //for odd run 
-                                            if (default_out == 0)
-                                            {
-                                                swapVariableData = batsman1;
-                                                batsman1 = batsman2;
-                                                batsman2 = swapVariableData;
+                                            swapVariableData = batsman2;
+                                            batsman2 = batsman1;
+                                            batsman1 = swapVariableData;
+                                            if (default_out == 2)
                                                 default_out = 1;
-                                            }
-                                            else if (default_out == 1)
-                                            {
-                                                default_out = 2;
-                                            }
                                             else
-                                            {
-                                                swapVariableData = batsman2;
-                                                batsman2 = batsman1;
-                                                batsman1 = swapVariableData;
-                                                default_out = 1;
-                                            }
+                                                default_out = 2;
                                         }
 
                                         total_run = total_run + run;
@@ -986,53 +825,37 @@ namespace Cricket_Application.Team
                                             int no_ball_run = random.Next(6);
                                             if (no_ball_run == 5)
                                                 goto no_ball_runStart;
-                                          
-                                            if (no_ball_run == 2 || no_ball_run == 4 || no_ball_run == 6)
+                                            run = no_ball_run;
+                                            if (no_ball_run == 0)
                                             {
-                                                //for even run 
-                                                if (default_out == 0)
-                                                {
-                                                    default_out = 2;
-                                                }
-                                                else if (default_out == 1)
-                                                {
-                                                    swapVariableData = batsman1;
-                                                    batsman1 = batsman2;
-                                                    batsman2 = swapVariableData;
-                                                    default_out = 1;
-                                                }
-                                                else
-                                                {
-                                                    default_out = 2;
-                                                }
+                                                over_ball++;
+                                                total_ball++;
                                             }
                                             else
                                             {
-                                                //for odd run 
-                                                if (default_out == 0)
+                                                if (no_ball_run == 2 || no_ball_run == 4 || no_ball_run == 6)
                                                 {
-                                                    swapVariableData = batsman1;
-                                                    batsman1 = batsman2;
-                                                    batsman2 = swapVariableData;
-                                                    default_out = 1;
-                                                }
-                                                else if (default_out == 1)
-                                                {
-                                                    default_out = 2;
+                                                    //for even run 
+                                                    if (default_out == 2)
+                                                        default_out = 2;
+                                                    else
+                                                        default_out = 1;
                                                 }
                                                 else
                                                 {
+                                                    //for odd run 
                                                     swapVariableData = batsman2;
                                                     batsman2 = batsman1;
                                                     batsman1 = swapVariableData;
-                                                    default_out = 1;
+                                                    if (default_out == 2)
+                                                        default_out = 1;
+                                                    else
+                                                        default_out = 2;
                                                 }
+                                                total_run = total_run + no_ball_run;
+                                                over_ball++;
+                                                total_ball++;
                                             }
-
-                                            total_run = total_run + no_ball_run;
-
-                                            over_ball++;
-                                            total_ball++;
                                         }
                                         else if (run == 7)
                                         {
@@ -1041,51 +864,30 @@ namespace Cricket_Application.Team
                                             {
                                                 if (White_ball_run == 0)
                                                 {
+                                                    run = 0;
                                                     over_ball++;
                                                     total_ball++;
                                                 }
                                                 else if (White_ball_run == 1 || White_ball_run == 2 || White_ball_run == 3 || White_ball_run == 4 || White_ball_run == 6)
                                                 {
+                                                    run = White_ball_run;
                                                     if (White_ball_run == 2 || White_ball_run == 4 || White_ball_run == 6)
                                                     {
                                                         //for even run 
-                                                        if (default_out == 0)
-                                                        {
+                                                        if (default_out == 2)
                                                             default_out = 2;
-                                                        }
-                                                        else if (default_out == 1)
-                                                        {
-                                                            swapVariableData = batsman1;
-                                                            batsman1 = batsman2;
-                                                            batsman2 = swapVariableData;
-                                                            default_out = 1;
-                                                        }
                                                         else
-                                                        {
-                                                            default_out = 2;
-                                                        }
+                                                            default_out = 1;
                                                     }
                                                     else
-                                                    {
-                                                        //for odd run 
-                                                        if (default_out == 0)
-                                                        {
-                                                            swapVariableData = batsman1;
-                                                            batsman1 = batsman2;
-                                                            batsman2 = swapVariableData;
+                                                    {          //for odd run                                      
+                                                        swapVariableData = batsman2;
+                                                        batsman2 = batsman1;
+                                                        batsman1 = swapVariableData;
+                                                        if (default_out == 2)
                                                             default_out = 1;
-                                                        }
-                                                        else if (default_out == 1)
-                                                        {
-                                                            default_out = 2;
-                                                        }
                                                         else
-                                                        {
-                                                            swapVariableData = batsman2;
-                                                            batsman2 = batsman1;
-                                                            batsman1 = swapVariableData;
-                                                            default_out = 1;
-                                                        }
+                                                            default_out = 2;
                                                     }
 
                                                     total_run = total_run + White_ball_run;
@@ -1094,6 +896,7 @@ namespace Cricket_Application.Team
                                                 }
                                                 else
                                                 {
+                                                    run = 8;
                                                     Console.WriteLine("Out!");
                                                     not_out_players = not_out_players - 1;
                                                     if (default_out == 2)
@@ -1102,7 +905,7 @@ namespace Cricket_Application.Team
                                                         int k = 1;
                                                         for (int i = 3; i <= 11; i++)
                                                         {
-                                                            if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) ==false)
+                                                            if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) == false)
                                                             {
                                                                 batsman2 += k;
                                                                 break;
@@ -1120,7 +923,7 @@ namespace Cricket_Application.Team
                                                         int k = 1;
                                                         for (int i = 3; i <= 11; i++)
                                                         {
-                                                            if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) ==false)
+                                                            if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) == false)
                                                             {
                                                                 batsman1 += k;
                                                                 break;
@@ -1132,7 +935,7 @@ namespace Cricket_Application.Team
                                                         }
                                                     }
                                                     if (not_out_players == 1)
-                                                    {                                                      
+                                                    {
                                                         match_end = true;
                                                         break;
                                                     }
@@ -1142,21 +945,23 @@ namespace Cricket_Application.Team
                                             }
                                             else
                                             {
+                                                run = 0;
                                                 Console.WriteLine("White Ball!");
                                                 total_run = total_run + 1;
                                             }
                                         }
                                         else if (run == 8)
                                         {
+                                            run = 8;
                                             Console.WriteLine("Out!");
                                             not_out_players = not_out_players - 1;
                                             if (default_out == 2)
                                             {
-                                                outPlayerList.Add (batsman2);
+                                                outPlayerList.Add(batsman2);
                                                 int k = 1;
                                                 for (int i = 3; i <= 11; i++)
                                                 {
-                                                    if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) ==false)
+                                                    if ((batsman2 + k) <= BanPlayers.Count && (batsman2 + k) != batsman1 && IsPlayerAlreadyOut(batsman2 + k) == false)
                                                     {
                                                         batsman2 += k;
                                                         break;
@@ -1174,7 +979,7 @@ namespace Cricket_Application.Team
                                                 int k = 1;
                                                 for (int i = 3; i <= 11; i++)
                                                 {
-                                                    if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) ==false)
+                                                    if ((batsman1 + k) <= BanPlayers.Count && (batsman1 + k) != batsman2 && IsPlayerAlreadyOut(batsman1 + k) == false)
                                                     {
                                                         batsman1 += k;
                                                         break;
@@ -1186,7 +991,7 @@ namespace Cricket_Application.Team
                                                 }
                                             }
                                             if (not_out_players == 1)
-                                            {                                              
+                                            {
                                                 match_end = true;
                                                 break;
                                             }
@@ -1203,8 +1008,28 @@ namespace Cricket_Application.Team
                                 }
                             }
                             total_over = total_over - 1;
-                            if(default_out == 2)
-                                default_out = 1;
+
+                            if (default_out == 2)
+                            {
+                                if (run == 0 || run == 2 || run == 4 || run == 6 || run == 8)
+                                {
+                                    swapVariableData = batsman2;
+                                    batsman2 = batsman1;
+                                    batsman1 = swapVariableData;
+                                    default_out = 1;
+                                }
+                            }
+                            else
+                            {
+                                if (run == 0 || run == 2 || run == 4 || run == 6 || run == 8)
+                                {
+                                    swapVariableData = batsman2;
+                                    batsman2 = batsman1;
+                                    batsman1 = swapVariableData;
+                                    default_out = 2;
+                                }
+                            }
+
                             if (total_over == 0)
                                 match_end = true;
                         }
@@ -1242,7 +1067,7 @@ namespace Cricket_Application.Team
             } while (not_out_players > 1 && not_out_players <= not_out_players + 1);
 
             Ban_Over = total_ball / 6;
-            Ban_Running_ball = total_ball % 6;                
+            Ban_Running_ball = total_ball % 6;
             Ban_Run = total_run;
             Ban_Win_Player = not_out_players;
             Ban_out_players = total_players - not_out_players;
@@ -1255,7 +1080,7 @@ namespace Cricket_Application.Team
             int countBang = 0, countEng = 0, total_run = 0, p1_run = 0, p2_run = 0, total_over = total_match_over, not_out_players = total_players, baller_stack = 3, total_ball = 0, temp = 0, running_ball = 0;
             var runList = new List<int>() { 0, 1, 0, 0, 3, 0, 1, 0, 7, 1, 2, 0, 1, 2, 0, 1, 1, 0, 2, 0, 1, 8, 0, 0, 1, 0, 0, 1, 1, 1, 6, 0, 0, 1, 4, 1, 0, 2, 1, 0, 1, 1, 5, 0, 0, 0, 2, 1, 1, 0 };
             int batsman1 = 0, batsman2 = 1, default_out = 0, swapVariableData;
-            bool match_end=false;
+            bool match_end = false;
             do
             {
                 do
@@ -1269,9 +1094,9 @@ namespace Cricket_Application.Team
                             else
                             {
                                 int over_ball = 1;
-                              //  Console.Clear();
-                               // Console.WriteLine($"ENG : {total_run}    Over: {total_ball/6}.{total_ball%6}");
-                               // Console.WriteLine($"{EngPlayers[countBang].Name} : {p1_run}\n{EngPlayers[countBang + 1].Name} : {p2_run}");
+                                //  Console.Clear();
+                                // Console.WriteLine($"ENG : {total_run}    Over: {total_ball/6}.{total_ball%6}");
+                                // Console.WriteLine($"{EngPlayers[countBang].Name} : {p1_run}\n{EngPlayers[countBang + 1].Name} : {p2_run}");
                                 Console.WriteLine($"Bangladesh boller Name: {BanPlayers[countEng].Name}");
                                 while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                                 {
@@ -1843,9 +1668,9 @@ namespace Cricket_Application.Team
                         else
                         {
                             int over_ball = 1;
-                          //  Console.Clear();
-                           // Console.WriteLine($"ENG: {total_run}    Over: {total_ball/6}.{total_ball%6}");
-                          //  Console.WriteLine($"{EngPlayers[countBang].Name} : {p1_run}\n{EngPlayers[countBang + 1].Name} : {p2_run}");
+                            //  Console.Clear();
+                            // Console.WriteLine($"ENG: {total_run}    Over: {total_ball/6}.{total_ball%6}");
+                            //  Console.WriteLine($"{EngPlayers[countBang].Name} : {p1_run}\n{EngPlayers[countBang + 1].Name} : {p2_run}");
                             Console.WriteLine($"Bangladesh boller Name: {BanPlayers[countEng].Name}");
                             while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                             {
@@ -2446,15 +2271,15 @@ namespace Cricket_Application.Team
                     break;
             } while (not_out_players > 1 && not_out_players <= not_out_players + 1);
             Eng_Run = total_run;
-            Eng_Over = total_ball/6;
+            Eng_Over = total_ball / 6;
             Eng_Win_Player = not_out_players;
-            Eng_Running_ball = total_ball%6;
+            Eng_Running_ball = total_ball % 6;
             Eng_out_players = total_players - not_out_players;
         }
         public void Display(int toss_win)
         {
             int win_run = 0;
-          //  Console.Clear();
+            //  Console.Clear();
             string toss_win_country = (toss_win == 0) ? "Bangladesh" : "England";
             Console.WriteLine($"{toss_win_country} won the toss!");
             if (toss_win == 0)
@@ -2496,8 +2321,8 @@ namespace Cricket_Application.Team
 
         public bool IsPlayerAlreadyOut(int out_player)
         {
-            bool isOut=false;
-            if(outPlayerList.Contains(out_player))
+            bool isOut = false;
+            if (outPlayerList.Contains(out_player))
                 isOut = true;
             return isOut;
         }
