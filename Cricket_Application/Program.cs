@@ -95,12 +95,12 @@ namespace Cricket_Application
         GameStart:
             Console.Clear();
             Console.Write("Enter total T20 Match Over of Innings (0 < input <= 20): ");
-            int innings_over = Convert.ToInt32(Console.ReadLine());
-            MatchPlay matchPlay = new MatchPlay(bangladeshTeam, englandTeam);
+            int innings_over = Convert.ToInt32(Console.ReadLine());          
             var random = new Random();         
-            int tossResult = random.Next(2);           
-           
-            if(tossResult == 0) {
+            int tossResult = random.Next(2);
+
+            MatchPlay matchPlay = new MatchPlay(bangladeshTeam, englandTeam,tossResult);
+            if (tossResult == 0) {
                 matchPlay.FirstInnings(ban_total_Players, innings_over, tossResult);
                 matchPlay.SecondInnings(eng_total_Players, innings_over, tossResult);
                 matchPlay.Display(tossResult);
