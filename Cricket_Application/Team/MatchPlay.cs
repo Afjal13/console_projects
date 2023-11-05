@@ -26,6 +26,7 @@ namespace Cricket_Application.Team
         List<CricketPlayer> BanPlayers;
         List<CricketPlayer> EngPlayers;
         List<int> outPlayerList = new List<int>();
+        List<int> outPlayer2ndList = new List<int>();
         public int tossWinResult { get; set; }
         public MatchPlay(BangladeshTeam bangladeshTeam, EnglandTeam englandTeam, int tossWinResult)
         {
@@ -33,7 +34,7 @@ namespace Cricket_Application.Team
             this.englandTeam = englandTeam;
             this.tossWinResult = tossWinResult;
         }
-        public void FirstInnings(int total_players, int total_match_over, int toss_win)
+        public void FirstInnings(int total_players, int total_match_over, int toss_win, int battingTeam)
         {
             EngPlayers = englandTeam.GetPlayers();
             BanPlayers = bangladeshTeam.GetPlayers();
@@ -70,7 +71,7 @@ namespace Cricket_Application.Team
                                             break;
                                         else
                                         {
-                                            var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult);
+                                            var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult,battingTeam);
                                             run = throwBallEvents.Item1;
                                             default_out=throwBallEvents.Item2;
                                             total_run = throwBallEvents.Item3;
@@ -88,7 +89,7 @@ namespace Cricket_Application.Team
                                     }
                                     else
                                     {
-                                        var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult);
+                                        var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult, battingTeam);
                                         run = throwBallEvents.Item1;
                                         default_out = throwBallEvents.Item2;
                                         total_run = throwBallEvents.Item3;
@@ -148,7 +149,7 @@ namespace Cricket_Application.Team
                                         break;
                                     else
                                     {
-                                        var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult);
+                                        var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult, battingTeam);
                                         run = throwBallEvents.Item1;
                                         default_out = throwBallEvents.Item2;
                                         total_run = throwBallEvents.Item3;
@@ -166,7 +167,7 @@ namespace Cricket_Application.Team
                                 }
                                 else
                                 {
-                                    var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult);
+                                    var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult, battingTeam);
                                     run = throwBallEvents.Item1;
                                     default_out = throwBallEvents.Item2;
                                     total_run = throwBallEvents.Item3;
@@ -248,7 +249,7 @@ namespace Cricket_Application.Team
             Ban_out_players = total_players - not_out_players;
         }
 
-        public void SecondInnings(int total_players, int total_match_over, int toss_win)
+        public void SecondInnings(int total_players, int total_match_over, int toss_win, int battingTeam)
         {
             EngPlayers = englandTeam.GetPlayers();
             BanPlayers = bangladeshTeam.GetPlayers();
@@ -285,7 +286,7 @@ namespace Cricket_Application.Team
                                             break;
                                         else
                                         {
-                                            var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players,tossWinResult);
+                                            var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players,tossWinResult, battingTeam);
                                             run = throwBallEvents.Item1;
                                             default_out = throwBallEvents.Item2;
                                             total_run = throwBallEvents.Item3;
@@ -303,7 +304,7 @@ namespace Cricket_Application.Team
                                     }
                                     else
                                     {
-                                        var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult);
+                                        var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult, battingTeam);
                                         run = throwBallEvents.Item1;
                                         default_out = throwBallEvents.Item2;
                                         total_run = throwBallEvents.Item3;
@@ -363,7 +364,7 @@ namespace Cricket_Application.Team
                                         break;
                                     else
                                     {
-                                        var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult);
+                                        var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult, battingTeam);
                                         run = throwBallEvents.Item1;
                                         default_out = throwBallEvents.Item2;
                                         total_run = throwBallEvents.Item3;
@@ -381,7 +382,7 @@ namespace Cricket_Application.Team
                                 }
                                 else
                                 {
-                                    var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult);
+                                    var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult, battingTeam);
                                     run = throwBallEvents.Item1;
                                     default_out = throwBallEvents.Item2;
                                     total_run = throwBallEvents.Item3;
@@ -463,26 +464,26 @@ namespace Cricket_Application.Team
             Eng_out_players = total_players - not_out_players;
         }
 
-        public void Display(int toss_win)
+        public void Display(int toss_win,string firstTeamName,string secondTeamName)
         {
             int win_run = 0;
             //  Console.Clear();
-            string toss_win_country = (toss_win == 0) ? "Bangladesh" : "England";
+            string toss_win_country = (toss_win == 0) ? firstTeamName : secondTeamName;
             Console.WriteLine($"{toss_win_country} won the toss!");
             if (toss_win == 0)
             {
                 if (Ban_Run > Eng_Run)
                 {
                     win_run = Ban_Run - Eng_Run;
-                    Console.WriteLine($"Bangladesh Run: {Ban_Run}/{Ban_out_players}\tOver: {Ban_Over}.{Ban_Running_ball}");
-                    Console.WriteLine($"England Run: {Eng_Run}/{Eng_out_players}\tOver: {Eng_Over}.{Ban_Running_ball}");
-                    Console.WriteLine($"Bangladesh Win by {win_run} runs!");
+                    Console.WriteLine($"{firstTeamName} Run: {Ban_Run}/{Ban_out_players}\tOver: {Ban_Over}.{Ban_Running_ball}");
+                    Console.WriteLine($"{secondTeamName} Run: {Eng_Run}/{Eng_out_players}\tOver: {Eng_Over}.{Ban_Running_ball}");
+                    Console.WriteLine($"{firstTeamName} Win by {win_run} runs!");
                 }
                 else
                 {
-                    Console.WriteLine($"Bangladesh Run: {Ban_Run}/{Ban_out_players}\tOver: {Ban_Over}.{Ban_Running_ball}");
-                    Console.WriteLine($"England Run: {Eng_Run}/{Eng_out_players}\tOver: {Eng_Over}.{Ban_Running_ball}");
-                    Console.WriteLine($"England Win by {Eng_Win_Player} Wickets!");
+                    Console.WriteLine($"{firstTeamName} Run: {Ban_Run}/{Ban_out_players}\tOver: {Ban_Over}.{Ban_Running_ball}");
+                    Console.WriteLine($"{secondTeamName} Run: {Eng_Run}/{Eng_out_players}\tOver: {Eng_Over}.{Ban_Running_ball}");
+                    Console.WriteLine($"{secondTeamName} Win by {Eng_Win_Player} Wickets!");
                 }
             }
             else
@@ -506,20 +507,29 @@ namespace Cricket_Application.Team
 
         }
 
-        public bool IsPlayerAlreadyOut(int out_player)
+        public bool IsPlayerAlreadyOut(int out_player,int battingTeam)
         {
             bool isOut = false;
-            if (outPlayerList.Contains(out_player))
-                isOut = true;
+            if (battingTeam == 0)
+            {
+                if (outPlayerList.Contains(out_player))
+                    isOut = true;
+            }
+            else
+            {
+                if (outPlayer2ndList.Contains(out_player))
+                    isOut = true;
+            }
+            
             return isOut;
         }
 
-        public int NewBatsman(int outBatsman, int totalOfPlayer, int opositeBatsman)
+        public int NewBatsman(int outBatsman, int totalOfPlayer, int opositeBatsman,int battingTeam)
         {
             int k = 1;
             for (int i = 3; i <= 11; i++)
             {
-                if ((outBatsman + k) < totalOfPlayer && (outBatsman + k) != opositeBatsman && IsPlayerAlreadyOut(outBatsman + k) == false)
+                if ((outBatsman + k) < totalOfPlayer && (outBatsman + k) != opositeBatsman && IsPlayerAlreadyOut(outBatsman + k, battingTeam) == false)
                 {
                     outBatsman += k;
                     break;
@@ -532,7 +542,7 @@ namespace Cricket_Application.Team
             return outBatsman;
         }
 
-        public (int, int, int, int, int, int, int, int) ThrowBallEvent(int preBallRun, int default_out, int total_run, int over_ball, int total_ball, int batsman1, int batsman2, int not_out_players, int toss) // tuple return type
+        public (int, int, int, int, int, int, int, int) ThrowBallEvent(int preBallRun, int default_out, int total_run, int over_ball, int total_ball, int batsman1, int batsman2, int not_out_players, int toss, int battingTeam) // tuple return type
         {
             EngPlayers = englandTeam.GetPlayers();
             BanPlayers = bangladeshTeam.GetPlayers();
@@ -653,20 +663,31 @@ namespace Cricket_Application.Team
                             Console.WriteLine("Out!");
                             not_out_players = not_out_players - 1;
                             if (default_out == 2)
-                            {
-                                outPlayerList.Add(batsman2);
-                                if(toss==1)
-                                    batsman2 = NewBatsman(batsman2, BanPlayers.Count, batsman1);
+                            {                            
+                              if (battingTeam == 0)
+                                {
+                                    outPlayerList.Add(batsman2);
+                                    batsman2 = NewBatsman(batsman2, BanPlayers.Count, batsman1, battingTeam);
+                                }
                                 else
-                                    batsman2 = NewBatsman(batsman2, EngPlayers.Count, batsman1);
+                                {
+                                    outPlayer2ndList.Add(batsman2);
+                                    batsman2 = NewBatsman(batsman2, EngPlayers.Count, batsman1, battingTeam);
+                                }                                 
                             }
                             else if (default_out == 1)
                             {
-                                outPlayerList.Add(batsman1);
-                                if(toss==1)
-                                     batsman1 = NewBatsman(batsman1, BanPlayers.Count, batsman2);
+                                if (battingTeam == 0)
+                                {
+                                    outPlayerList.Add(batsman1);
+                                    batsman1 = NewBatsman(batsman1, BanPlayers.Count, batsman2, battingTeam);
+                                }
                                 else
-                                    batsman1 = NewBatsman(batsman1, EngPlayers.Count, batsman2);
+                                {
+                                    outPlayer2ndList.Add(batsman1);
+                                    batsman1 = NewBatsman(batsman1, EngPlayers.Count, batsman2, battingTeam);
+                                }
+                                    
                             }
                             over_ball++;
                             total_ball++;
@@ -686,19 +707,30 @@ namespace Cricket_Application.Team
                     not_out_players = not_out_players - 1;
                     if (default_out == 2)
                     {
-                        outPlayerList.Add(batsman2);
-                        if (toss == 1)
-                            batsman2 = NewBatsman(batsman2, BanPlayers.Count, batsman1);
+                        if (battingTeam == 0)
+                        {
+                            outPlayerList.Add(batsman2);
+                            batsman2 = NewBatsman(batsman2, BanPlayers.Count, batsman1, battingTeam);
+                        }
                         else
-                            batsman2 = NewBatsman(batsman2, EngPlayers.Count, batsman1);
+                        {
+                            outPlayer2ndList.Add(batsman2);
+                            batsman2 = NewBatsman(batsman2, EngPlayers.Count, batsman1, battingTeam);
+                        }
                     }
                     else if (default_out == 1)
                     {
-                        outPlayerList.Add(batsman1);
-                        if(toss == 1)
-                            batsman1 = NewBatsman(batsman1, BanPlayers.Count, batsman2);
+                        if (battingTeam == 0)
+                        {
+                            outPlayerList.Add(batsman1);
+                            batsman1 = NewBatsman(batsman1, BanPlayers.Count, batsman2, battingTeam);
+                        }
                         else
-                            batsman1 = NewBatsman(batsman1, EngPlayers.Count, batsman2);
+                        {
+                            outPlayer2ndList.Add(batsman1);
+                            batsman1 = NewBatsman(batsman1, EngPlayers.Count, batsman2, battingTeam);
+                        }
+
                     }
                     over_ball++;
                     total_ball++;

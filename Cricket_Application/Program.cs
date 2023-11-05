@@ -12,6 +12,7 @@ namespace Cricket_Application
         {
             BangladeshTeam bangladeshTeam = new BangladeshTeam();
             EnglandTeam englandTeam = new EnglandTeam();
+            string firstTeamName=string.Empty, secondTeamName=string.Empty;
             string name;
             int age;
             decimal bestscore;
@@ -41,6 +42,8 @@ namespace Cricket_Application
 
         Bangladesh:
         AddBngPlayer:
+            Console.WriteLine("Enter FirstTeam Name: ");
+                firstTeamName = Console.ReadLine();
             Console.Write("Enter total number of Player (0 < input <= 11): ");
             if (int.TryParse(Console.ReadLine(), out  ban_total_Players) && ban_total_Players > 0 && ban_total_Players <= 11)
             {
@@ -68,6 +71,8 @@ namespace Cricket_Application
 
         England:
         AddEngPlayer:
+            Console.WriteLine("Enter FirstTeam Name: ");
+            secondTeamName = Console.ReadLine();
             Console.Write("Enter total number of Player (0 < input <= 11): ");
             if (int.TryParse(Console.ReadLine(), out eng_total_Players) && eng_total_Players > 0 && eng_total_Players <= 11)
             {
@@ -101,15 +106,15 @@ namespace Cricket_Application
 
             MatchPlay matchPlay = new MatchPlay(bangladeshTeam, englandTeam,tossResult);
             if (tossResult == 0) {
-                matchPlay.FirstInnings(ban_total_Players, innings_over, tossResult);
-                matchPlay.SecondInnings(eng_total_Players, innings_over, tossResult);
-                matchPlay.Display(tossResult);
+                matchPlay.FirstInnings(ban_total_Players, innings_over, tossResult,0);
+                matchPlay.SecondInnings(eng_total_Players, innings_over, tossResult,1);
+                matchPlay.Display(tossResult, firstTeamName, secondTeamName);
             }
             else
             {
-                matchPlay.SecondInnings(eng_total_Players, innings_over, tossResult);
-                matchPlay.FirstInnings(eng_total_Players, innings_over, tossResult);
-                matchPlay.Display(tossResult);
+                matchPlay.SecondInnings(eng_total_Players, innings_over, tossResult,1);
+                matchPlay.FirstInnings(eng_total_Players, innings_over, tossResult,0);
+                matchPlay.Display(tossResult, firstTeamName, secondTeamName);
             }
             
         }
