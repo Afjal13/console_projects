@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks.Dataflow;
 using Cricket_Application.Models;
 using Cricket_Application.Team;
 using Cricket_Application.Teams;
@@ -10,113 +11,155 @@ namespace Cricket_Application
     {
         static void Main(string[] args)
         {
-            BangladeshTeam bangladeshTeam = new BangladeshTeam();
-            EnglandTeam englandTeam = new EnglandTeam();
-            string firstTeamName=string.Empty, secondTeamName=string.Empty;
-            string name;
-            int age;
-            decimal bestscore;
-            int ban_total_Players = 0;
-            int eng_total_Players = 0;
-
+            FirstTeam firstTeam = new FirstTeam();
+            SecondTeam secondTeam = new SecondTeam();
+            string? firstTeamName = string.Empty, secondTeamName = string.Empty, name = string.Empty;
+            int age, firstTeamTotalPlayers = 0, secondTeamTotalPlayers = 0, selectOption;
+            double bestscore;
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            //Bat  icon emoji \uD83C\uDFCF
+            //ball icon emoji \u26BD
+            Console.WriteLine("\n\n\t\t\t\t \u2764\uFE0FCricket ODI Tournament\u2764\uFE0F \n\n");
         Start:
-            Console.WriteLine("\n\n\t\t1. Bangladesh  2. England  3. Match Play 0. Cancel");
+            Console.WriteLine("\n\n\t\t1. First Team  2. Second Team  3. Match Play 0. Cancel");
             Console.WriteLine("\t==================================================================");
             Console.Write("Select option: ");
-            int selectCountry = Convert.ToInt32(Console.ReadLine());
-
-            switch (selectCountry)
+            if (int.TryParse(Console.ReadLine(), out selectOption))
             {
-                case 0:
-                    return;
-                case 1:
-                    goto Bangladesh;
-                case 2:
-                    goto England;
-                case 3:
-                    goto GameStart;
-                default:
-                    Console.WriteLine("Invalid input!");
-                    goto Start;
+                switch (selectOption)
+                {
+                    case 0:
+                        return;
+                    case 1:
+                        goto FirstTeam;
+                    case 2:
+                        goto SecondTeam;
+                    case 3:
+                        goto GameStart;
+                    default:
+                        Console.WriteLine("Invalid input!");
+                        goto Start;
+                }
             }
-
-        Bangladesh:
+            else
+            {
+                goto Start;
+            }
+        FirstTeam:
         AddBngPlayer:
             Console.WriteLine("Enter FirstTeam Name: ");
-                firstTeamName = Console.ReadLine();
+            firstTeamName = Console.ReadLine();
             Console.Write("Enter total number of Player (0 < input <= 11): ");
-            if (int.TryParse(Console.ReadLine(), out  ban_total_Players) && ban_total_Players > 0 && ban_total_Players <= 11)
+            if (int.TryParse(Console.ReadLine(), out firstTeamTotalPlayers) && firstTeamTotalPlayers > 0 && firstTeamTotalPlayers <= 11)
             {
-
-                for (int i = 0; i < ban_total_Players; i++)
+                Console.WriteLine($"{firstTeamName} Player Details: ");
+                for (int i = 0; i < firstTeamTotalPlayers; i++)
                 {
-                    Console.Write("Enter Name: ");
-                    name = Console.ReadLine();
-                    Console.Write("Enter Age: ");
-                    age = Convert.ToInt32(Console.ReadLine());
-                    Console.Write("Enter Best Score: ");
-                    bestscore = Convert.ToDecimal(Console.ReadLine());
 
-                    CricketPlayer player = new CricketPlayer(name, age, bestscore, "Bangladesh");
-                    bangladeshTeam.AddPlayer(player);
+                    Console.Write("Name: ");
+                    name = Console.ReadLine();
+                FTPlayerAge:
+                    Console.Write("Age: ");
+                    string? playerAge = Console.ReadLine();
+                    if (int.TryParse(playerAge, out age)) { }
+                    else
+                    {
+                        Console.WriteLine("Invalid input!");
+                        goto FTPlayerAge;
+                    }
+                FTPlayerBestScore:
+                    Console.Write("Best Score: ");
+                    string? playerBestScore = Console.ReadLine();
+                    if (double.TryParse(playerBestScore, out bestscore)) { }
+                    else
+                    {
+                        Console.WriteLine("Invalid input!");
+                        goto FTPlayerBestScore;
+                    }
+                    CricketPlayer player = new CricketPlayer(name, age, bestscore, firstTeamName);
+                    firstTeam.AddPlayer(player);
                 }
 
                 goto Start;
             }
             else
             {
-                Console.WriteLine("Invalid input! Please enter a valid number of players.");
+                Console.WriteLine("Invalid input!");
                 goto AddBngPlayer;
             }
 
-        England:
+        SecondTeam:
         AddEngPlayer:
             Console.WriteLine("Enter FirstTeam Name: ");
             secondTeamName = Console.ReadLine();
             Console.Write("Enter total number of Player (0 < input <= 11): ");
-            if (int.TryParse(Console.ReadLine(), out eng_total_Players) && eng_total_Players > 0 && eng_total_Players <= 11)
+            if (int.TryParse(Console.ReadLine(), out secondTeamTotalPlayers) && secondTeamTotalPlayers > 0 && secondTeamTotalPlayers <= 11)
             {
-                for (int i = 0; i < eng_total_Players; i++)
+                for (int i = 0; i < secondTeamTotalPlayers; i++)
                 {
-                    Console.Write("Enter Name: ");
+                    Console.Write("Name: ");
                     name = Console.ReadLine();
-                    Console.Write("Enter Age: ");
-                    age = Convert.ToInt32(Console.ReadLine());
-                    Console.Write("Enter Best Score: ");
-                    bestscore = Convert.ToDecimal(Console.ReadLine());
-
-                    CricketPlayer player = new CricketPlayer(name, age, bestscore, "England");
-                    englandTeam.AddPlayer(player);
+                STPlayerAge:
+                    Console.Write("Age: ");
+                    string? playerAge = Console.ReadLine();
+                    if (int.TryParse(playerAge, out age)) { }
+                    else
+                    {
+                        Console.WriteLine("Invalid input!");
+                        goto STPlayerAge;
+                    }
+                STPlayerBestScore:
+                    Console.Write("Best Score: ");
+                    string? playerBestScore = Console.ReadLine();
+                    if (double.TryParse(playerBestScore, out bestscore)) { }
+                    else
+                    {
+                        Console.WriteLine("Invalid input!");
+                        goto STPlayerBestScore;
+                    }
+                    CricketPlayer player = new CricketPlayer(name, age, bestscore, secondTeamName);
+                    secondTeam.AddPlayer(player);
                 }
 
                 goto Start;
             }
             else
             {
-                Console.WriteLine("Invalid input! Please enter a valid number of players.");
+                Console.WriteLine("Invalid input!");
                 goto AddEngPlayer;
             }
 
         GameStart:
             Console.Clear();
-            Console.Write("Enter total T20 Match Over of Innings (0 < input <= 20): ");
-            int innings_over = Convert.ToInt32(Console.ReadLine());          
-            var random = new Random();         
-            int tossResult = random.Next(2);
 
-            MatchPlay matchPlay = new MatchPlay(bangladeshTeam, englandTeam,tossResult);
-            if (tossResult == 0) {
-                matchPlay.FirstInnings(ban_total_Players, innings_over, tossResult,0);
-                matchPlay.SecondInnings(eng_total_Players, innings_over, tossResult,1);
-                matchPlay.Display(tossResult, firstTeamName, secondTeamName);
+        TeamInningsOver:
+            Console.Write("Enter total ODI Match Over of Innings (0 < input <= 50): ");
+            int inningsOver;
+            if (int.TryParse(Console.ReadLine(), out inningsOver))
+            {
+                var random = new Random();
+                int tossResult = random.Next(2);
+
+                MatchPlay matchPlay = new MatchPlay(firstTeam, secondTeam, tossResult);
+                if (tossResult == 0)
+                {
+                    matchPlay.FirstInnings(firstTeamTotalPlayers, inningsOver, tossResult, 0, firstTeamName, secondTeamName);
+                    matchPlay.SecondInnings(secondTeamTotalPlayers, inningsOver, tossResult, 1, firstTeamName, secondTeamName);
+                    matchPlay.Display(tossResult, firstTeamName, secondTeamName);
+                }
+                else
+                {
+                    matchPlay.SecondInnings(secondTeamTotalPlayers, inningsOver, tossResult, 1, firstTeamName, secondTeamName);
+                    matchPlay.FirstInnings(firstTeamTotalPlayers, inningsOver, tossResult, 0, firstTeamName, secondTeamName);
+                    matchPlay.Display(tossResult, firstTeamName, secondTeamName);
+                }
+
             }
             else
             {
-                matchPlay.SecondInnings(eng_total_Players, innings_over, tossResult,1);
-                matchPlay.FirstInnings(eng_total_Players, innings_over, tossResult,0);
-                matchPlay.Display(tossResult, firstTeamName, secondTeamName);
+                Console.WriteLine("Invalid input!");
+                goto TeamInningsOver;
             }
-            
         }
     }
 }

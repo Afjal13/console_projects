@@ -4,7 +4,7 @@ using Cricket_Application.Models;
 
 namespace Cricket_Application.Teams
 {
-    public class EnglandTeam
+    public class SecondTeam
     {
         private List<CricketPlayer> PlayerList = new List<CricketPlayer>();
 
