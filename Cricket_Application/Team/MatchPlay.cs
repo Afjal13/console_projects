@@ -11,33 +11,33 @@ namespace Cricket_Application.Team
 {
     public class MatchPlay
     {
-        public int Ban_Run { get; set; }
-        public int Ban_Over { get; set; }
-        public int Ban_Win_Player { get; set; }
-        public int Ban_Running_ball { get; set; }
-        public int Ban_out_players { get; set; }
-        public int Eng_Run { get; set; }
-        public int Eng_Over { get; set; }
-        public int Eng_Win_Player { get; set; }
-        public int Eng_Running_ball { get; set; }
-        public int Eng_out_players { get; set; }
-        private FirstTeam bangladeshTeam;
-        private SecondTeam englandTeam;
-        List<CricketPlayer> BanPlayers;
-        List<CricketPlayer> EngPlayers;
-        List<int> outPlayerList = new List<int>();
-        List<int> outPlayer2ndList = new List<int>();
+        public int FirstTeamRun { get; set; }
+        public int FirstTeamOver { get; set; }
+        public int FirstTeamWinPlayer { get; set; }
+        public int FirstTeamRunningBalls { get; set; }
+        public int FirstTeamOutPlayers { get; set; }
+        public int SecondTeamRun { get; set; }
+        public int SecondTeamOver { get; set; }
+        public int SecondTeamWinPlayer { get; set; }
+        public int SecondTeamRunningBalls { get; set; }
+        public int SecondTeamOutPlayers { get; set; }
+        private FirstTeam _firstTeam;
+        private SecondTeam _secondTeam;
+        List<CricketPlayer> FirstTeamPlayers;
+        List<CricketPlayer> SecondTeamPlayers;
+        List<int> OutPlayerFirstTeamLists = new List<int>();
+        List<int> OutPlayerSecondTeamLists = new List<int>();
         public int tossWinResult { get; set; }
-        public MatchPlay(FirstTeam bangladeshTeam, SecondTeam englandTeam, int tossWinResult)
+        public MatchPlay(FirstTeam firstTeam, SecondTeam secondTeam, int tossWinResult)
         {
-            this.bangladeshTeam = bangladeshTeam;
-            this.englandTeam = englandTeam;
+            this._firstTeam = firstTeam;
+            this._secondTeam = secondTeam;
             this.tossWinResult = tossWinResult;
         }
         public void FirstInnings(int total_players, int total_match_over, int toss_win, int battingTeam, string? firstTeamName, string? secondTeamName)
         {
-            EngPlayers = englandTeam.GetPlayers();
-            BanPlayers = bangladeshTeam.GetPlayers();
+            SecondTeamPlayers = _secondTeam.GetPlayers();
+            FirstTeamPlayers = _firstTeam.GetPlayers();
             int countEng = 0, total_run = 0, p1_run = 0, p2_run = 0, total_over = total_match_over, not_out_players = total_players, baller_stack = 3, total_ball = 0, temp = 0;
             int batsman1 = 0, batsman2 = 1, default_out = 2, swapVariableData,run = 0;
             bool match_end = false;
@@ -55,7 +55,7 @@ namespace Cricket_Application.Team
                             else
                             {
                                 int over_ball = 1;
-                                Console.WriteLine($"{secondTeamName} boller Name: {EngPlayers[countEng].Name}");
+                                Console.WriteLine($"{secondTeamName} boller Name: {SecondTeamPlayers[countEng].Name}");
                                 while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                                 {
                                     if (over_ball != 6)
@@ -63,10 +63,10 @@ namespace Cricket_Application.Team
                                     else
                                         Console.WriteLine($"{firstTeamName} : {total_run}/{total_players - not_out_players}\tOver: {(total_ball / 6) + 1}.{0}");
 
-                                    Console.WriteLine($"{BanPlayers[batsman1].Name} : {p1_run}\n{BanPlayers[batsman2].Name} : {p2_run}");
+                                    Console.WriteLine($"👨 {FirstTeamPlayers[batsman1].Name} : {p1_run}\n👨 {FirstTeamPlayers[batsman2].Name} : {p2_run}");
                                     if (toss_win == 1)
                                     {
-                                        temp = Eng_Run - total_run;
+                                        temp = SecondTeamRun - total_run;
                                         if (temp < 0)
                                             break;
                                         else
@@ -134,17 +134,17 @@ namespace Cricket_Application.Team
                         else
                         {
                             int over_ball = 1;
-                            Console.WriteLine($"{secondTeamName} boller Name: {EngPlayers[countEng].Name}");
+                            Console.WriteLine($"{secondTeamName} boller Name: {SecondTeamPlayers[countEng].Name}");
                             while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                             {
                                 if (over_ball != 6)
                                     Console.WriteLine($"{firstTeamName}  : {total_run}/{total_players - not_out_players}\tOver: {total_ball / 6}.{(total_ball % 6) + 1}");
                                 else
                                     Console.WriteLine($"{firstTeamName}  : {total_run}/{total_players - not_out_players}\tOver: {(total_ball / 6) + 1}.{0}");
-                                Console.WriteLine($"{BanPlayers[batsman1].Name} : {p1_run}\n{BanPlayers[batsman2].Name} : {p2_run}");
+                                Console.WriteLine($"👨 {FirstTeamPlayers[batsman1].Name} : {p1_run}\n👨 {FirstTeamPlayers[batsman2].Name} : {p2_run}");
                                 if (toss_win == 1)
                                 {
-                                    temp = Eng_Run - total_run;
+                                    temp = SecondTeamRun - total_run;
                                     if (temp < 0)
                                         break;
                                     else
@@ -242,17 +242,17 @@ namespace Cricket_Application.Team
 
             } while (not_out_players > 1 && not_out_players <= not_out_players + 1);
 
-            Ban_Over = total_ball / 6;
-            Ban_Running_ball = total_ball % 6;
-            Ban_Run = total_run;
-            Ban_Win_Player = not_out_players;
-            Ban_out_players = total_players - not_out_players;
+            FirstTeamOver = total_ball / 6;
+            FirstTeamRunningBalls = total_ball % 6;
+            FirstTeamRun = total_run;
+            FirstTeamWinPlayer = not_out_players;
+            FirstTeamOutPlayers = total_players - not_out_players;
         }
 
         public void SecondInnings(int total_players, int total_match_over, int toss_win, int battingTeam, string? firstTeamName, string? secondTeamName)
         {
-            EngPlayers = englandTeam.GetPlayers();
-            BanPlayers = bangladeshTeam.GetPlayers();
+            SecondTeamPlayers = _secondTeam.GetPlayers();
+            FirstTeamPlayers = _firstTeam.GetPlayers();
             int countEng = 0, total_run = 0, p1_run = 0, p2_run = 0, total_over = total_match_over, not_out_players = total_players, baller_stack = 3, total_ball = 0, temp = 0;
             int batsman1 = 0, batsman2 = 1, default_out = 2, swapVariableData, run = 0;
             bool match_end = false;
@@ -270,7 +270,7 @@ namespace Cricket_Application.Team
                             else
                             {
                                 int over_ball = 1;
-                                Console.WriteLine($"{firstTeamName} boller Name: {BanPlayers[countEng].Name}");
+                                Console.WriteLine($"{firstTeamName} boller Name: {FirstTeamPlayers[countEng].Name}");
                                 while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                                 {
                                     if (over_ball != 6)
@@ -278,10 +278,10 @@ namespace Cricket_Application.Team
                                     else
                                         Console.WriteLine($"{secondTeamName} : {total_run}/{total_players - not_out_players}\tOver: {(total_ball / 6) + 1}.{0}");
 
-                                    Console.WriteLine($"{EngPlayers[batsman1].Name} : {p1_run}\n{EngPlayers[batsman2].Name} : {p2_run}");
+                                    Console.WriteLine($"👨 {SecondTeamPlayers[batsman1].Name} : {p1_run}\n👨 {SecondTeamPlayers[batsman2].Name} : {p2_run}");
                                     if (toss_win == 0)
                                     {
-                                        temp = Ban_Run - total_run;
+                                        temp = FirstTeamRun - total_run;
                                         if (temp < 0)
                                             break;
                                         else
@@ -349,17 +349,17 @@ namespace Cricket_Application.Team
                         else
                         {
                             int over_ball = 1;
-                            Console.WriteLine($"{firstTeamName} boller Name: {BanPlayers[countEng].Name}");
+                            Console.WriteLine($"{firstTeamName} boller Name: {FirstTeamPlayers[countEng].Name}");
                             while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                             {
                                 if (over_ball != 6)
                                     Console.WriteLine($"{secondTeamName}  : {total_run}/{total_players - not_out_players}\tOver: {total_ball / 6}.{(total_ball % 6) + 1}");
                                 else
                                     Console.WriteLine($"{secondTeamName} : {total_run}/{total_players - not_out_players}\tOver: {(total_ball / 6) + 1}.{0}");
-                                Console.WriteLine($"{EngPlayers[batsman1].Name} : {p1_run}\n{EngPlayers[batsman2].Name} : {p2_run}");
+                                Console.WriteLine($"👨 {SecondTeamPlayers[batsman1].Name} : {p1_run}\n👨 {SecondTeamPlayers[batsman2].Name} : {p2_run}");
                                 if (toss_win == 0)
                                 {
-                                    temp = Ban_Run - total_run;
+                                    temp = FirstTeamRun - total_run;
                                     if (temp < 0)
                                         break;
                                     else
@@ -457,11 +457,11 @@ namespace Cricket_Application.Team
 
             } while (not_out_players > 1 && not_out_players <= not_out_players + 1);
 
-            Eng_Over = total_ball / 6;
-            Eng_Running_ball = total_ball % 6;
-            Eng_Run = total_run;
-            Eng_Win_Player = not_out_players;
-            Eng_out_players = total_players - not_out_players;
+            SecondTeamOver = total_ball / 6;
+            SecondTeamRunningBalls = total_ball % 6;
+            SecondTeamRun = total_run;
+            SecondTeamWinPlayer = not_out_players;
+            SecondTeamOutPlayers = total_players - not_out_players;
         }
 
         public void Display(int toss_win,string? firstTeamName,string? secondTeamName)
@@ -472,33 +472,33 @@ namespace Cricket_Application.Team
             Console.WriteLine($"{toss_win_country} won the toss!");
             if (toss_win == 0)
             {
-                if (Ban_Run > Eng_Run)
+                if (FirstTeamRun > SecondTeamRun)
                 {
-                    win_run = Ban_Run - Eng_Run;
-                    Console.WriteLine($"{firstTeamName} Run: {Ban_Run}/{Ban_out_players}\tOver: {Ban_Over}.{Ban_Running_ball}");
-                    Console.WriteLine($"{secondTeamName} Run: {Eng_Run}/{Eng_out_players}\tOver: {Eng_Over}.{Ban_Running_ball}");
+                    win_run = FirstTeamRun - SecondTeamRun;
+                    Console.WriteLine($"{firstTeamName} Run: {FirstTeamRun}/{FirstTeamOutPlayers}\tOver: {FirstTeamOver}.{FirstTeamRunningBalls}");
+                    Console.WriteLine($"{secondTeamName} Run: {SecondTeamRun}/{SecondTeamOutPlayers}\tOver: {SecondTeamOver}.{SecondTeamRunningBalls}");
                     Console.WriteLine($"{firstTeamName} Win by {win_run} runs!");
                 }
                 else
                 {
-                    Console.WriteLine($"{firstTeamName} Run: {Ban_Run}/{Ban_out_players}\tOver: {Ban_Over}.{Ban_Running_ball}");
-                    Console.WriteLine($"{secondTeamName} Run: {Eng_Run}/{Eng_out_players}\tOver: {Eng_Over}.{Ban_Running_ball}");
-                    Console.WriteLine($"{secondTeamName} Win by {Eng_Win_Player} Wickets!");
+                    Console.WriteLine($"{firstTeamName} Run: {FirstTeamRun}/{FirstTeamOutPlayers}\tOver: {FirstTeamOver}.{FirstTeamRunningBalls}");
+                    Console.WriteLine($"{secondTeamName} Run: {SecondTeamRun}/{SecondTeamOutPlayers}\tOver: {SecondTeamOver}.{SecondTeamRunningBalls}");
+                    Console.WriteLine($"{secondTeamName} Win by {SecondTeamWinPlayer} Wickets!");
                 }
             }
             else
             {
-                if (Ban_Run > Eng_Run)
+                if (FirstTeamRun > SecondTeamRun)
                 {
-                    Console.WriteLine($"{firstTeamName} Run: {Ban_Run}/{Ban_out_players}\tOver: {Ban_Over}.{Ban_Running_ball}");
-                    Console.WriteLine($"{secondTeamName} Run: {Eng_Run}/{Eng_out_players}\tOver: {Eng_Over}.{Ban_Running_ball}");
-                    Console.WriteLine($"{firstTeamName} Win by {Ban_Win_Player} Wickets!");
+                    Console.WriteLine($"{firstTeamName} Run: {FirstTeamRun}/{FirstTeamOutPlayers}\tOver: {FirstTeamOver}.{FirstTeamRunningBalls}");
+                    Console.WriteLine($"{secondTeamName} Run: {SecondTeamRun}/{SecondTeamOutPlayers}\tOver: {SecondTeamOver}.{SecondTeamRunningBalls}");
+                    Console.WriteLine($"{firstTeamName} Win by {FirstTeamWinPlayer} Wickets!");
                 }
                 else
                 {
-                    win_run = Eng_Run - Ban_Run;
-                    Console.WriteLine($"{firstTeamName} Run: {Ban_Run}/{Ban_out_players}\tOver: {Ban_Over}.{Ban_Running_ball}");
-                    Console.WriteLine($"{secondTeamName} Run: {Eng_Run}/{Eng_out_players}\tOver: {Eng_Over}.{Ban_Running_ball}");
+                    win_run = SecondTeamRun - FirstTeamRun;
+                    Console.WriteLine($"{firstTeamName} Run: {FirstTeamRun}/{FirstTeamOutPlayers}\tOver: {FirstTeamOver}.{FirstTeamRunningBalls}");
+                    Console.WriteLine($"{secondTeamName} Run: {SecondTeamRun}/{SecondTeamOutPlayers}\tOver: {SecondTeamOver}.{SecondTeamRunningBalls}");
                     Console.WriteLine($"{secondTeamName} Win by {win_run} runs!");
 
                 }
@@ -512,12 +512,12 @@ namespace Cricket_Application.Team
             bool isOut = false;
             if (battingTeam == 0)
             {
-                if (outPlayerList.Contains(out_player))
+                if (OutPlayerFirstTeamLists.Contains(out_player))
                     isOut = true;
             }
             else
             {
-                if (outPlayer2ndList.Contains(out_player))
+                if (OutPlayerSecondTeamLists.Contains(out_player))
                     isOut = true;
             }
             
@@ -544,8 +544,8 @@ namespace Cricket_Application.Team
 
         public (int, int, int, int, int, int, int, int) ThrowBallEvent(int preBallRun, int default_out, int total_run, int over_ball, int total_ball, int batsman1, int batsman2, int not_out_players, int toss, int battingTeam) // tuple return type
         {
-            EngPlayers = englandTeam.GetPlayers();
-            BanPlayers = bangladeshTeam.GetPlayers();
+            SecondTeamPlayers = _secondTeam.GetPlayers();
+            FirstTeamPlayers = _firstTeam.GetPlayers();
             var random = new Random();
             int run, swapVariableData;
             var runList = new List<int>() { 0, 1, 0, 0, 3, 0, 1, 0, 7, 1, 2, 0, 1, 2, 0, 1, 1, 0, 2, 0, 1, 8, 0, 0, 1, 0, 0, 1, 1, 1, 6, 0, 0, 1, 4, 1, 0, 2, 1, 0, 1, 1, 5, 0, 0, 0, 2, 1, 1, 0 };
@@ -666,26 +666,26 @@ namespace Cricket_Application.Team
                             {                            
                               if (battingTeam == 0)
                                 {
-                                    outPlayerList.Add(batsman2);
-                                    batsman2 = NewBatsman(batsman2, BanPlayers.Count, batsman1, battingTeam);
+                                    OutPlayerFirstTeamLists.Add(batsman2);
+                                    batsman2 = NewBatsman(batsman2, FirstTeamPlayers.Count, batsman1, battingTeam);
                                 }
                                 else
                                 {
-                                    outPlayer2ndList.Add(batsman2);
-                                    batsman2 = NewBatsman(batsman2, EngPlayers.Count, batsman1, battingTeam);
+                                    OutPlayerSecondTeamLists.Add(batsman2);
+                                    batsman2 = NewBatsman(batsman2, SecondTeamPlayers.Count, batsman1, battingTeam);
                                 }                                 
                             }
                             else if (default_out == 1)
                             {
                                 if (battingTeam == 0)
                                 {
-                                    outPlayerList.Add(batsman1);
-                                    batsman1 = NewBatsman(batsman1, BanPlayers.Count, batsman2, battingTeam);
+                                    OutPlayerFirstTeamLists.Add(batsman1);
+                                    batsman1 = NewBatsman(batsman1, FirstTeamPlayers.Count, batsman2, battingTeam);
                                 }
                                 else
                                 {
-                                    outPlayer2ndList.Add(batsman1);
-                                    batsman1 = NewBatsman(batsman1, EngPlayers.Count, batsman2, battingTeam);
+                                    OutPlayerSecondTeamLists.Add(batsman1);
+                                    batsman1 = NewBatsman(batsman1, SecondTeamPlayers.Count, batsman2, battingTeam);
                                 }
                                     
                             }
@@ -709,26 +709,26 @@ namespace Cricket_Application.Team
                     {
                         if (battingTeam == 0)
                         {
-                            outPlayerList.Add(batsman2);
-                            batsman2 = NewBatsman(batsman2, BanPlayers.Count, batsman1, battingTeam);
+                            OutPlayerFirstTeamLists.Add(batsman2);
+                            batsman2 = NewBatsman(batsman2, FirstTeamPlayers.Count, batsman1, battingTeam);
                         }
                         else
                         {
-                            outPlayer2ndList.Add(batsman2);
-                            batsman2 = NewBatsman(batsman2, EngPlayers.Count, batsman1, battingTeam);
+                            OutPlayerSecondTeamLists.Add(batsman2);
+                            batsman2 = NewBatsman(batsman2, SecondTeamPlayers.Count, batsman1, battingTeam);
                         }
                     }
                     else if (default_out == 1)
                     {
                         if (battingTeam == 0)
                         {
-                            outPlayerList.Add(batsman1);
-                            batsman1 = NewBatsman(batsman1, BanPlayers.Count, batsman2, battingTeam);
+                            OutPlayerFirstTeamLists.Add(batsman1);
+                            batsman1 = NewBatsman(batsman1, FirstTeamPlayers.Count, batsman2, battingTeam);
                         }
                         else
                         {
-                            outPlayer2ndList.Add(batsman1);
-                            batsman1 = NewBatsman(batsman1, EngPlayers.Count, batsman2, battingTeam);
+                            OutPlayerSecondTeamLists.Add(batsman1);
+                            batsman1 = NewBatsman(batsman1, SecondTeamPlayers.Count, batsman2, battingTeam);
                         }
 
                     }
