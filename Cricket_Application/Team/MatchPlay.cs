@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,11 +12,13 @@ namespace Cricket_Application.Team
 {
     public class MatchPlay
     {
+        public string? FirstTeamName { get; set; }
         public int FirstTeamRun { get; set; }
         public int FirstTeamOver { get; set; }
         public int FirstTeamWinPlayer { get; set; }
         public int FirstTeamRunningBalls { get; set; }
         public int FirstTeamOutPlayers { get; set; }
+        public string? SecondTeamName { get; set; }
         public int SecondTeamRun { get; set; }
         public int SecondTeamOver { get; set; }
         public int SecondTeamWinPlayer { get; set; }
@@ -27,21 +30,29 @@ namespace Cricket_Application.Team
         List<CricketPlayer> SecondTeamPlayers;
         List<int> OutPlayerFirstTeamLists = new List<int>();
         List<int> OutPlayerSecondTeamLists = new List<int>();
+        List<int> FirstTeamBallerList = new List<int>();
+        List<int> SecondTeamBallerList = new List<int>();
         public int tossWinResult { get; set; }
-        public MatchPlay(FirstTeam firstTeam, SecondTeam secondTeam, int tossWinResult)
+        public MatchPlay(FirstTeam firstTeam, SecondTeam secondTeam, int tossWinResult, string? firstTeamName, string? secondTeamName)
         {
             this._firstTeam = firstTeam;
             this._secondTeam = secondTeam;
             this.tossWinResult = tossWinResult;
+            this.FirstTeamName = firstTeamName;
+            this.SecondTeamName = secondTeamName;
+            // Initialize the player lists
+            this.FirstTeamPlayers = new List<CricketPlayer>();
+            this.SecondTeamPlayers = new List<CricketPlayer>();
         }
         public void FirstInnings(int total_players, int total_match_over, int toss_win, int battingTeam, string? firstTeamName, string? secondTeamName)
         {
-            SecondTeamPlayers = _secondTeam.GetPlayers();
-            FirstTeamPlayers = _firstTeam.GetPlayers();
-            int countEng = 0, total_run = 0, p1_run = 0, p2_run = 0, total_over = total_match_over, not_out_players = total_players, baller_stack = 3, total_ball = 0, temp = 0;
+            SecondTeamPlayers = _secondTeam.GetPlayers() ?? new List<CricketPlayer>(); 
+            FirstTeamPlayers = _firstTeam.GetPlayers() ?? new List<CricketPlayer>(); 
+            int total_run = 0, p1_run = 0, p2_run = 0, total_over = total_match_over, not_out_players = total_players, baller_stack = 3, total_ball = 0, temp = 0;
             int batsman1 = 0, batsman2 = 1, default_out = 2, swapVariableData,run = 0;
             bool match_end = false;
 
+            AddBallerLists(SecondTeamPlayers);
             do
             {
                 do
@@ -55,7 +66,10 @@ namespace Cricket_Application.Team
                             else
                             {
                                 int over_ball = 1;
-                                Console.WriteLine($"{secondTeamName} boller Name: {SecondTeamPlayers[countEng].Name}");
+                                var random = new Random();
+                                int ballerIndex = random.Next(SecondTeamBallerList.Count);
+                                int ballerId = SecondTeamBallerList[ballerIndex];
+                                Console.WriteLine($"{secondTeamName} Baller Name: 👨 {SecondTeamPlayers[ballerId].Name}");
                                 while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                                 {
                                     if (over_ball != 6)
@@ -134,7 +148,10 @@ namespace Cricket_Application.Team
                         else
                         {
                             int over_ball = 1;
-                            Console.WriteLine($"{secondTeamName} boller Name: {SecondTeamPlayers[countEng].Name}");
+                            var random = new Random();
+                            int ballerIndex = random.Next(SecondTeamBallerList.Count);
+                            int ballerId = SecondTeamBallerList[ballerIndex];
+                            Console.WriteLine($"{secondTeamName} Baller Name: 👨 {SecondTeamPlayers[ballerId].Name}");
                             while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                             {
                                 if (over_ball != 6)
@@ -251,12 +268,12 @@ namespace Cricket_Application.Team
 
         public void SecondInnings(int total_players, int total_match_over, int toss_win, int battingTeam, string? firstTeamName, string? secondTeamName)
         {
-            SecondTeamPlayers = _secondTeam.GetPlayers();
-            FirstTeamPlayers = _firstTeam.GetPlayers();
-            int countEng = 0, total_run = 0, p1_run = 0, p2_run = 0, total_over = total_match_over, not_out_players = total_players, baller_stack = 3, total_ball = 0, temp = 0;
+            SecondTeamPlayers = _secondTeam.GetPlayers() ?? new List<CricketPlayer>(); 
+            FirstTeamPlayers = _firstTeam.GetPlayers() ?? new List<CricketPlayer>(); 
+            int total_run = 0, p1_run = 0, p2_run = 0, total_over = total_match_over, not_out_players = total_players, baller_stack = 3, total_ball = 0, temp = 0;
             int batsman1 = 0, batsman2 = 1, default_out = 2, swapVariableData, run = 0;
             bool match_end = false;
-
+            AddBallerLists(FirstTeamPlayers);
             do
             {
                 do
@@ -270,7 +287,10 @@ namespace Cricket_Application.Team
                             else
                             {
                                 int over_ball = 1;
-                                Console.WriteLine($"{firstTeamName} boller Name: {FirstTeamPlayers[countEng].Name}");
+                                var random = new Random();
+                                int ballerIndex = random.Next(FirstTeamBallerList.Count);
+                                int ballerId = FirstTeamBallerList[ballerIndex];
+                                Console.WriteLine($"{firstTeamName} Baller Name: 👨 {FirstTeamPlayers[ballerId].Name}");
                                 while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                                 {
                                     if (over_ball != 6)
@@ -348,8 +368,12 @@ namespace Cricket_Application.Team
                         }
                         else
                         {
+
                             int over_ball = 1;
-                            Console.WriteLine($"{firstTeamName} boller Name: {FirstTeamPlayers[countEng].Name}");
+                            var random = new Random();
+                            int ballerIndex = random.Next(FirstTeamBallerList.Count);
+                            int ballerId = FirstTeamBallerList[ballerIndex];
+                            Console.WriteLine($"{firstTeamName} Baller Name: 👨 {FirstTeamPlayers[ballerId].Name}");
                             while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                             {
                                 if (over_ball != 6)
@@ -745,6 +769,22 @@ namespace Cricket_Application.Team
 
             preBallRun = run;
             return (preBallRun, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players); // tuple literal
+        }
+
+        public void AddBallerLists(List<CricketPlayer> cricketPlayerLists)
+        {
+            for (int i = 0; i < cricketPlayerLists.Count; i++)
+            {
+                var currentPlayer = cricketPlayerLists[i];
+
+                if (currentPlayer != null && currentPlayer.Title != null && (currentPlayer.Title.ToLower() == "baller" || currentPlayer.Title.ToLower() == "allrounder"))
+                {
+                    if (currentPlayer.Country == FirstTeamName)
+                        FirstTeamBallerList.Add(i);
+                    else
+                        SecondTeamBallerList.Add(i);
+                }
+            }
         }
     }
 }

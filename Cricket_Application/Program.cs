@@ -13,7 +13,7 @@ namespace Cricket_Application
         {
             FirstTeam firstTeam = new FirstTeam();
             SecondTeam secondTeam = new SecondTeam();
-            string? firstTeamName = string.Empty, secondTeamName = string.Empty, name = string.Empty;
+            string? firstTeamName = string.Empty, secondTeamName = string.Empty, name = string.Empty,title = string.Empty;
             int age, firstTeamTotalPlayers = 0, secondTeamTotalPlayers = 0, selectOption;
             double bestscore;
             Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -47,7 +47,7 @@ namespace Cricket_Application
             }
         FirstTeam:
         AddBngPlayer:
-            Console.WriteLine("Enter FirstTeam Name: ");
+            Console.Write("Enter FirstTeam Name: ");
             firstTeamName = Console.ReadLine();
             Console.Write("Enter total number of Player (0 < input <= 11): ");
             if (int.TryParse(Console.ReadLine(), out firstTeamTotalPlayers) && firstTeamTotalPlayers > 0 && firstTeamTotalPlayers <= 11)
@@ -76,7 +76,9 @@ namespace Cricket_Application
                         Console.WriteLine("Invalid input!");
                         goto FTPlayerBestScore;
                     }
-                    CricketPlayer player = new CricketPlayer(name, age, bestscore, firstTeamName);
+                    Console.Write("Title: ");
+                    title = Console.ReadLine();
+                    CricketPlayer player = new CricketPlayer(name, age, bestscore, title, firstTeamName);
                     firstTeam.AddPlayer(player);
                 }
 
@@ -90,11 +92,12 @@ namespace Cricket_Application
 
         SecondTeam:
         AddEngPlayer:
-            Console.WriteLine("Enter FirstTeam Name: ");
+            Console.Write("Enter FirstTeam Name: ");
             secondTeamName = Console.ReadLine();
             Console.Write("Enter total number of Player (0 < input <= 11): ");
             if (int.TryParse(Console.ReadLine(), out secondTeamTotalPlayers) && secondTeamTotalPlayers > 0 && secondTeamTotalPlayers <= 11)
             {
+                Console.WriteLine($"{secondTeamName} Player Details: ");
                 for (int i = 0; i < secondTeamTotalPlayers; i++)
                 {
                     Console.Write("Name: ");
@@ -117,7 +120,10 @@ namespace Cricket_Application
                         Console.WriteLine("Invalid input!");
                         goto STPlayerBestScore;
                     }
-                    CricketPlayer player = new CricketPlayer(name, age, bestscore, secondTeamName);
+
+                    Console.Write("Title: ");
+                    title = Console.ReadLine();
+                    CricketPlayer player = new CricketPlayer(name, age, bestscore, title, secondTeamName);
                     secondTeam.AddPlayer(player);
                 }
 
@@ -140,7 +146,7 @@ namespace Cricket_Application
                 var random = new Random();
                 int tossResult = random.Next(2);
 
-                MatchPlay matchPlay = new MatchPlay(firstTeam, secondTeam, tossResult);
+                MatchPlay matchPlay = new MatchPlay(firstTeam, secondTeam, tossResult, firstTeamName, secondTeamName);
                 if (tossResult == 0)
                 {
                     matchPlay.FirstInnings(firstTeamTotalPlayers, inningsOver, tossResult, 0, firstTeamName, secondTeamName);
