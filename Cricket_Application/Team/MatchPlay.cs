@@ -46,10 +46,10 @@ namespace Cricket_Application.Team
         }
         public void FirstInnings(int total_players, int total_match_over, int toss_win, int battingTeam, string? firstTeamName, string? secondTeamName)
         {
-            SecondTeamPlayers = _secondTeam.GetPlayers() ?? new List<CricketPlayer>(); 
-            FirstTeamPlayers = _firstTeam.GetPlayers() ?? new List<CricketPlayer>(); 
+            SecondTeamPlayers = _secondTeam.GetPlayers() ?? new List<CricketPlayer>();
+            FirstTeamPlayers = _firstTeam.GetPlayers() ?? new List<CricketPlayer>();
             int total_run = 0, p1_run = 0, p2_run = 0, total_over = total_match_over, not_out_players = total_players, baller_stack = 3, total_ball = 0, temp = 0;
-            int batsman1 = 0, batsman2 = 1, default_out = 2, swapVariableData,run = 0;
+            int batsman1 = 0, batsman2 = 1, default_out = 2, swapVariableData, run = 0, lastBallerId = -1;
             bool match_end = false;
 
             AddBallerLists(SecondTeamPlayers);
@@ -66,10 +66,8 @@ namespace Cricket_Application.Team
                             else
                             {
                                 int over_ball = 1;
-                                var random = new Random();
-                                int ballerIndex = random.Next(SecondTeamBallerList.Count);
-                                int ballerId = SecondTeamBallerList[ballerIndex];
-                                Console.WriteLine($"{secondTeamName} Baller Name: 👨 {SecondTeamPlayers[ballerId].Name}");
+                                lastBallerId = GetBaller(SecondTeamBallerList, lastBallerId);
+                                Console.WriteLine($"{secondTeamName} Baller Name: 👨 {SecondTeamPlayers[lastBallerId].Name}");
                                 while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                                 {
                                     if (over_ball != 6)
@@ -85,9 +83,9 @@ namespace Cricket_Application.Team
                                             break;
                                         else
                                         {
-                                            var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult,battingTeam);
+                                            var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult, battingTeam);
                                             run = throwBallEvents.Item1;
-                                            default_out=throwBallEvents.Item2;
+                                            default_out = throwBallEvents.Item2;
                                             total_run = throwBallEvents.Item3;
                                             over_ball = throwBallEvents.Item4;
                                             total_ball = throwBallEvents.Item5;
@@ -98,7 +96,7 @@ namespace Cricket_Application.Team
                                             {
                                                 match_end = true;
                                                 break;
-                                            }                                          
+                                            }
                                         }
                                     }
                                     else
@@ -116,7 +114,7 @@ namespace Cricket_Application.Team
                                         {
                                             match_end = true;
                                             break;
-                                        }                                     
+                                        }
                                     }
                                 }
                                 total_over = total_over - 1;
@@ -148,10 +146,8 @@ namespace Cricket_Application.Team
                         else
                         {
                             int over_ball = 1;
-                            var random = new Random();
-                            int ballerIndex = random.Next(SecondTeamBallerList.Count);
-                            int ballerId = SecondTeamBallerList[ballerIndex];
-                            Console.WriteLine($"{secondTeamName} Baller Name: 👨 {SecondTeamPlayers[ballerId].Name}");
+                            lastBallerId = GetBaller(SecondTeamBallerList, lastBallerId);
+                            Console.WriteLine($"{secondTeamName} Baller Name: 👨 {SecondTeamPlayers[lastBallerId].Name}");
                             while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                             {
                                 if (over_ball != 6)
@@ -179,7 +175,7 @@ namespace Cricket_Application.Team
                                         {
                                             match_end = true;
                                             break;
-                                        }                                      
+                                        }
                                     }
                                 }
                                 else
@@ -197,7 +193,7 @@ namespace Cricket_Application.Team
                                     {
                                         match_end = true;
                                         break;
-                                    }                                  
+                                    }
                                 }
                             }
                             total_over = total_over - 1;
@@ -268,10 +264,10 @@ namespace Cricket_Application.Team
 
         public void SecondInnings(int total_players, int total_match_over, int toss_win, int battingTeam, string? firstTeamName, string? secondTeamName)
         {
-            SecondTeamPlayers = _secondTeam.GetPlayers() ?? new List<CricketPlayer>(); 
-            FirstTeamPlayers = _firstTeam.GetPlayers() ?? new List<CricketPlayer>(); 
+            SecondTeamPlayers = _secondTeam.GetPlayers() ?? new List<CricketPlayer>();
+            FirstTeamPlayers = _firstTeam.GetPlayers() ?? new List<CricketPlayer>();
             int total_run = 0, p1_run = 0, p2_run = 0, total_over = total_match_over, not_out_players = total_players, baller_stack = 3, total_ball = 0, temp = 0;
-            int batsman1 = 0, batsman2 = 1, default_out = 2, swapVariableData, run = 0;
+            int batsman1 = 0, batsman2 = 1, default_out = 2, swapVariableData, run = 0, lastBallerId=-1;
             bool match_end = false;
             AddBallerLists(FirstTeamPlayers);
             do
@@ -287,10 +283,8 @@ namespace Cricket_Application.Team
                             else
                             {
                                 int over_ball = 1;
-                                var random = new Random();
-                                int ballerIndex = random.Next(FirstTeamBallerList.Count);
-                                int ballerId = FirstTeamBallerList[ballerIndex];
-                                Console.WriteLine($"{firstTeamName} Baller Name: 👨 {FirstTeamPlayers[ballerId].Name}");
+                                lastBallerId = GetBaller(FirstTeamBallerList, lastBallerId);
+                                Console.WriteLine($"{firstTeamName} Baller Name: 👨 {FirstTeamPlayers[lastBallerId].Name}");
                                 while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                                 {
                                     if (over_ball != 6)
@@ -306,7 +300,7 @@ namespace Cricket_Application.Team
                                             break;
                                         else
                                         {
-                                            var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players,tossWinResult, battingTeam);
+                                            var throwBallEvents = ThrowBallEvent(run, default_out, total_run, over_ball, total_ball, batsman1, batsman2, not_out_players, tossWinResult, battingTeam);
                                             run = throwBallEvents.Item1;
                                             default_out = throwBallEvents.Item2;
                                             total_run = throwBallEvents.Item3;
@@ -370,10 +364,8 @@ namespace Cricket_Application.Team
                         {
 
                             int over_ball = 1;
-                            var random = new Random();
-                            int ballerIndex = random.Next(FirstTeamBallerList.Count);
-                            int ballerId = FirstTeamBallerList[ballerIndex];
-                            Console.WriteLine($"{firstTeamName} Baller Name: 👨 {FirstTeamPlayers[ballerId].Name}");
+                            lastBallerId = GetBaller(FirstTeamBallerList, lastBallerId);
+                            Console.WriteLine($"{firstTeamName} Baller Name: 👨 {FirstTeamPlayers[lastBallerId].Name}");
                             while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                             {
                                 if (over_ball != 6)
@@ -488,7 +480,7 @@ namespace Cricket_Application.Team
             SecondTeamOutPlayers = total_players - not_out_players;
         }
 
-        public void Display(int toss_win,string? firstTeamName,string? secondTeamName)
+        public void Display(int toss_win, string? firstTeamName, string? secondTeamName)
         {
             int win_run = 0;
             //  Console.Clear();
@@ -531,7 +523,7 @@ namespace Cricket_Application.Team
 
         }
 
-        public bool IsPlayerAlreadyOut(int out_player,int battingTeam)
+        public bool IsPlayerAlreadyOut(int out_player, int battingTeam)
         {
             bool isOut = false;
             if (battingTeam == 0)
@@ -544,11 +536,11 @@ namespace Cricket_Application.Team
                 if (OutPlayerSecondTeamLists.Contains(out_player))
                     isOut = true;
             }
-            
+
             return isOut;
         }
 
-        public int NewBatsman(int outBatsman, int totalOfPlayer, int opositeBatsman,int battingTeam)
+        public int NewBatsman(int outBatsman, int totalOfPlayer, int opositeBatsman, int battingTeam)
         {
             int k = 1;
             for (int i = 3; i <= 11; i++)
@@ -687,8 +679,8 @@ namespace Cricket_Application.Team
                             Console.WriteLine("Out!");
                             not_out_players = not_out_players - 1;
                             if (default_out == 2)
-                            {                            
-                              if (battingTeam == 0)
+                            {
+                                if (battingTeam == 0)
                                 {
                                     OutPlayerFirstTeamLists.Add(batsman2);
                                     batsman2 = NewBatsman(batsman2, FirstTeamPlayers.Count, batsman1, battingTeam);
@@ -697,7 +689,7 @@ namespace Cricket_Application.Team
                                 {
                                     OutPlayerSecondTeamLists.Add(batsman2);
                                     batsman2 = NewBatsman(batsman2, SecondTeamPlayers.Count, batsman1, battingTeam);
-                                }                                 
+                                }
                             }
                             else if (default_out == 1)
                             {
@@ -711,7 +703,7 @@ namespace Cricket_Application.Team
                                     OutPlayerSecondTeamLists.Add(batsman1);
                                     batsman1 = NewBatsman(batsman1, SecondTeamPlayers.Count, batsman2, battingTeam);
                                 }
-                                    
+
                             }
                             over_ball++;
                             total_ball++;
@@ -785,6 +777,25 @@ namespace Cricket_Application.Team
                         SecondTeamBallerList.Add(i);
                 }
             }
+        }
+
+        public int GetBaller(List<int> ballerList, int lastBallerId)
+        {
+
+            int ballerIndex, ballerId, baller;
+            var random = new Random();
+        MakeBaller:
+            ballerIndex = random.Next(ballerList.Count);
+            ballerId = ballerList[ballerIndex];
+
+
+            if (ballerId == lastBallerId)
+                goto MakeBaller;
+            else
+                baller = ballerId;
+
+
+            return baller;
         }
     }
 }
