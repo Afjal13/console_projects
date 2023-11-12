@@ -2,6 +2,7 @@
 using Cricket_Application.Teams;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Numerics;
@@ -32,6 +33,8 @@ namespace Cricket_Application.Team
         List<int> OutPlayerSecondTeamLists = new List<int>();
         List<int> FirstTeamBallerList = new List<int>();
         List<int> SecondTeamBallerList = new List<int>();
+        Dictionary<int, int> FirstTeamBallerOverStackLists = new Dictionary<int, int>();
+        Dictionary<int, int> SecondTeamBallerOverStackLists = new Dictionary<int, int>();
         public int tossWinResult { get; set; }
         public MatchPlay(FirstTeam firstTeam, SecondTeam secondTeam, int tossWinResult, string? firstTeamName, string? secondTeamName)
         {
@@ -66,7 +69,8 @@ namespace Cricket_Application.Team
                             else
                             {
                                 int over_ball = 1;
-                                lastBallerId = GetBaller(SecondTeamBallerList, lastBallerId);
+                                lastBallerId = GetBaller(SecondTeamBallerList, lastBallerId, battingTeam, total_match_over);
+                                OverStackOfBaller(lastBallerId, battingTeam);
                                 Console.WriteLine($"{secondTeamName} Baller Name: 👨 {SecondTeamPlayers[lastBallerId].Name}");
                                 while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                                 {
@@ -146,7 +150,8 @@ namespace Cricket_Application.Team
                         else
                         {
                             int over_ball = 1;
-                            lastBallerId = GetBaller(SecondTeamBallerList, lastBallerId);
+                            lastBallerId = GetBaller(SecondTeamBallerList, lastBallerId, battingTeam, total_match_over);
+                            OverStackOfBaller(lastBallerId, battingTeam);
                             Console.WriteLine($"{secondTeamName} Baller Name: 👨 {SecondTeamPlayers[lastBallerId].Name}");
                             while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                             {
@@ -283,7 +288,8 @@ namespace Cricket_Application.Team
                             else
                             {
                                 int over_ball = 1;
-                                lastBallerId = GetBaller(FirstTeamBallerList, lastBallerId);
+                                lastBallerId = GetBaller(FirstTeamBallerList, lastBallerId, battingTeam, total_match_over);
+                                OverStackOfBaller(lastBallerId, battingTeam);
                                 Console.WriteLine($"{firstTeamName} Baller Name: 👨 {FirstTeamPlayers[lastBallerId].Name}");
                                 while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                                 {
@@ -364,7 +370,8 @@ namespace Cricket_Application.Team
                         {
 
                             int over_ball = 1;
-                            lastBallerId = GetBaller(FirstTeamBallerList, lastBallerId);
+                            lastBallerId = GetBaller(FirstTeamBallerList, lastBallerId, battingTeam, total_match_over);
+                            OverStackOfBaller(lastBallerId, battingTeam);
                             Console.WriteLine($"{firstTeamName} Baller Name: 👨 {FirstTeamPlayers[lastBallerId].Name}");
                             while (over_ball > 0 && over_ball <= 6 && not_out_players <= not_out_players + 1)
                             {
@@ -779,23 +786,160 @@ namespace Cricket_Application.Team
             }
         }
 
-        public int GetBaller(List<int> ballerList, int lastBallerId)
+        public int GetBaller(List<int> ballerList, int lastBallerId, int battingTeam, int totalOver)
         {
-
-            int ballerIndex, ballerId, baller;
+            int totalBaller = ballerList.Count;
+            int eachBallerMaxOver = totalOver / ballerList.Count;
+            int ballerIndex, ballerId, baller, extraballer;
             var random = new Random();
         MakeBaller:
-            ballerIndex = random.Next(ballerList.Count);
+            ballerIndex = random.Next(totalBaller);
             ballerId = ballerList[ballerIndex];
 
 
             if (ballerId == lastBallerId)
                 goto MakeBaller;
             else
-                baller = ballerId;
+            {
+                if (battingTeam == 0)
+                {
+                    if (eachBallerMaxOver <= 10)
+                    {
+                        if (SecondTeamBallerOverStackLists.ContainsKey(ballerId))
+                        {
+                            if (SecondTeamBallerOverStackLists[ballerId] < 10)
+                            {
+                                baller = ballerId;
+                            }
+                            else
+                            {
+                                goto MakeBaller;
+                            }
+                        }
+                        else
+                        {
+                            baller = ballerId;
+                        }
+                    }
+                    else
+                    {
+                        extraballer = 5 - totalBaller;
+                        AddExtraBaller(SecondTeamPlayers, extraballer);
+                        baller = ballerId;
+                    }
+                   
+                }
+                else
+                {
+                    if (eachBallerMaxOver <= 10)
+                    {
+                        if (FirstTeamBallerOverStackLists.ContainsKey(ballerId))
+                        {
+                            if (FirstTeamBallerOverStackLists[ballerId] < 10)
+                            {
+                                baller = ballerId;
+                            }
+                            else
+                            {
+                                goto MakeBaller;
+                            }
+                        }
+                        else
+                        {
+                            baller = ballerId;
+                        }
+                    }
+                    else
+                    {
+                        extraballer = 5 - totalBaller;
+                        AddExtraBaller(FirstTeamPlayers, extraballer);
+                        baller = ballerId;
+                    }
+            
+                }
+            }
+            
+               
 
 
             return baller;
+        }
+
+        public void OverStackOfBaller(int ballerId, int battingTeam)
+        {
+            int newOver;   
+            if(battingTeam == 0)
+            {
+                if(SecondTeamBallerOverStackLists != null)
+                {
+                    if (SecondTeamBallerOverStackLists.ContainsKey(ballerId))
+                    {
+                        int lastContainOver = SecondTeamBallerOverStackLists[ballerId];
+                        newOver = lastContainOver + 1;
+                        SecondTeamBallerOverStackLists[ballerId]=newOver;
+                     
+                    }
+                    else
+                    {
+                        SecondTeamBallerOverStackLists.Add(ballerId, 1);
+                    }
+
+                }
+                //else
+                //{
+                //    SecondTeamBallerOverStackLists.Add(ballerId, 1);
+                //}
+               
+            }
+            else
+            {
+
+                if (FirstTeamBallerOverStackLists != null)
+                {
+                    if (FirstTeamBallerOverStackLists.ContainsKey(ballerId))
+                    {
+                        //completeOver = SecondTeamBallerOverStackLists[ballerId];
+                        //if(completeOver <= 10)
+                        //{
+
+                        //}
+                        int lastContainOver = FirstTeamBallerOverStackLists[ballerId];
+                        newOver = lastContainOver + 1;
+                        FirstTeamBallerOverStackLists[ballerId] = newOver;
+
+                    }
+                    else
+                    {
+                        FirstTeamBallerOverStackLists.Add(ballerId, 1);
+                    }
+
+                }
+                //else
+                //{
+                //    FirstTeamBallerOverStackLists.Add(ballerId, 1);
+                //}
+            }
+        }
+
+        public void AddExtraBaller(List<CricketPlayer> cricketPlayerLists , int extraBaller)
+        {
+            int count = 0;
+            for (int i = 0; i < cricketPlayerLists.Count; i++)
+            {
+                var currentPlayer = cricketPlayerLists[i];
+
+                if (currentPlayer != null && currentPlayer.Title != null && (currentPlayer.Title.ToLower() == "batsman"))
+                {
+                    if (currentPlayer.Country == FirstTeamName)
+                        FirstTeamBallerList.Add(i);
+                    else
+                        SecondTeamBallerList.Add(i);
+
+                    count++;
+                }
+                if(count== extraBaller)
+                { break; }
+            }
         }
     }
 }
