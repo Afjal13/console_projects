@@ -272,7 +272,7 @@ namespace Cricket_Application.Team
             SecondTeamPlayers = _secondTeam.GetPlayers() ?? new List<CricketPlayer>();
             FirstTeamPlayers = _firstTeam.GetPlayers() ?? new List<CricketPlayer>();
             int total_run = 0, p1_run = 0, p2_run = 0, total_over = total_match_over, not_out_players = total_players, baller_stack = 3, total_ball = 0, temp = 0;
-            int batsman1 = 0, batsman2 = 1, default_out = 2, swapVariableData, run = 0, lastBallerId=-1;
+            int batsman1 = 0, batsman2 = 1, default_out = 2, swapVariableData, run = 0, lastBallerId = -1;
             bool match_end = false;
             AddBallerLists(FirstTeamPlayers);
             do
@@ -798,7 +798,36 @@ namespace Cricket_Application.Team
 
 
             if (ballerId == lastBallerId)
-                goto MakeBaller;
+            {
+                if (battingTeam == 0)
+                {
+                    if (SecondTeamBallerOverStackLists.Count >= 5)
+                    {
+                        if (FinishOverLogic(battingTeam) == true)
+                            baller = ballerId;
+                        else
+                            goto MakeBaller;
+                    }
+                    else
+                    {
+                        goto MakeBaller;
+                    }
+                }
+                else
+                {
+                    if (FirstTeamBallerOverStackLists.Count >= 5)
+                    {
+                        if (FinishOverLogic(battingTeam) == true)
+                            baller = ballerId;
+                        else
+                            goto MakeBaller;
+                    }
+                    else
+                    {
+                        goto MakeBaller;
+                    }
+                }
+            }
             else
             {
                 if (battingTeam == 0)
@@ -827,7 +856,7 @@ namespace Cricket_Application.Team
                         AddExtraBaller(SecondTeamPlayers, extraballer);
                         baller = ballerId;
                     }
-                   
+
                 }
                 else
                 {
@@ -855,29 +884,25 @@ namespace Cricket_Application.Team
                         AddExtraBaller(FirstTeamPlayers, extraballer);
                         baller = ballerId;
                     }
-            
+
                 }
             }
-            
-               
-
-
             return baller;
         }
 
         public void OverStackOfBaller(int ballerId, int battingTeam)
         {
-            int newOver;   
-            if(battingTeam == 0)
+            int newOver;
+            if (battingTeam == 0)
             {
-                if(SecondTeamBallerOverStackLists != null)
+                if (SecondTeamBallerOverStackLists != null)
                 {
                     if (SecondTeamBallerOverStackLists.ContainsKey(ballerId))
                     {
                         int lastContainOver = SecondTeamBallerOverStackLists[ballerId];
                         newOver = lastContainOver + 1;
-                        SecondTeamBallerOverStackLists[ballerId]=newOver;
-                     
+                        SecondTeamBallerOverStackLists[ballerId] = newOver;
+
                     }
                     else
                     {
@@ -885,28 +910,16 @@ namespace Cricket_Application.Team
                     }
 
                 }
-                //else
-                //{
-                //    SecondTeamBallerOverStackLists.Add(ballerId, 1);
-                //}
-               
             }
             else
             {
-
                 if (FirstTeamBallerOverStackLists != null)
                 {
                     if (FirstTeamBallerOverStackLists.ContainsKey(ballerId))
                     {
-                        //completeOver = SecondTeamBallerOverStackLists[ballerId];
-                        //if(completeOver <= 10)
-                        //{
-
-                        //}
                         int lastContainOver = FirstTeamBallerOverStackLists[ballerId];
                         newOver = lastContainOver + 1;
                         FirstTeamBallerOverStackLists[ballerId] = newOver;
-
                     }
                     else
                     {
@@ -914,14 +927,10 @@ namespace Cricket_Application.Team
                     }
 
                 }
-                //else
-                //{
-                //    FirstTeamBallerOverStackLists.Add(ballerId, 1);
-                //}
             }
         }
 
-        public void AddExtraBaller(List<CricketPlayer> cricketPlayerLists , int extraBaller)
+        public void AddExtraBaller(List<CricketPlayer> cricketPlayerLists, int extraBaller)
         {
             int count = 0;
             for (int i = 0; i < cricketPlayerLists.Count; i++)
@@ -937,9 +946,40 @@ namespace Cricket_Application.Team
 
                     count++;
                 }
-                if(count== extraBaller)
+                if (count == extraBaller)
                 { break; }
             }
+        }
+
+
+        public bool FinishOverLogic(int battingTeam)
+        {
+            int firstTeamCount = 0, secondTeamCount = 0;
+
+            bool isSingleBaller = false;
+            if (battingTeam == 0)
+            {
+                for (int i = 0; i < SecondTeamBallerOverStackLists.Count; i++)
+                {
+                    int key = new List<int>(SecondTeamBallerOverStackLists.Keys)[i];
+                    if (SecondTeamBallerOverStackLists[key] == 10)
+                        secondTeamCount++;
+                }
+                if ((SecondTeamBallerOverStackLists.Count - secondTeamCount) == 1)
+                    isSingleBaller = true;
+            }
+            else
+            {
+                for (int i = 0; i < FirstTeamBallerOverStackLists.Count; i++)
+                {
+                    int key = new List<int>(FirstTeamBallerOverStackLists.Keys)[i];
+                    if (FirstTeamBallerOverStackLists[key] == 10)
+                        firstTeamCount++;
+                }
+                if ((FirstTeamBallerOverStackLists.Count - firstTeamCount) == 1)
+                    isSingleBaller = true;
+            }
+            return isSingleBaller;
         }
     }
 }
